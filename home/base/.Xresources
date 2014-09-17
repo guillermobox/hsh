@@ -1,0 +1,34 @@
+UXTerm*renderFont:true
+UXTerm*faceName:Monospace
+UXTerm*faceSize:10
+
+! black
+!UXTerm*color0: DarkSlateGrey
+!UXTerm*color8: DarkSlateGrey
+UXTerm*color0: Black
+UXTerm*color8: Black
+! red
+UXTerm*color1: Maroon
+UXTerm*color9: Maroon
+! green
+UXTerm*color2:  Green4
+UXTerm*color10: Green4
+! yellow
+UXTerm*color3:  DarkGoldenRod
+UXTerm*color11: DarkGoldenRod
+! blue
+UXTerm*color4:  RoyalBlue3
+UXTerm*color12: RoyalBlue3
+! magenta
+UXTerm*color5:  VioletRed
+UXTerm*color13: VioletRed
+! cyan
+UXTerm*color6:  CadetBlue4
+UXTerm*color14: CadetBlue4
+! white
+UXTerm*color7:  WhiteSmoke
+UXTerm*color15: WhiteSmoke
+
+UXTerm*background: WhiteSmoke
+!UXTerm*foreground: DarkSlateGrey
+UXTerm*foreground: Black

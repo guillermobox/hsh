@@ -1,0 +1,69 @@
+#!/usr/bin/env sh
+#
+# Home Sweet Home - Syncronize dotfiles and configure systems
+# Copyright 2014 Guillermo Indalecio Fernandez
+#
+
+BASE=$PWD
+
+die () {
+	echo $1
+	exit 1
+}
+
+do_install () {
+	setname=${1:-base}
+	filename="$2"
+	for file in `find "$BASE/home/$setname/" -mindepth 1 -maxdepth 1`
+	do
+		base=`basename $file`
+		local=$HOME/$base
+		if [ "$filename" != "" -a "$filename" != "$base" ]
+		then
+			continue
+		fi
+		if [ -e "$local" -a '!' -h "$local" ]
+		then
+			echo "Not syncing $base, file exists"
+			continue
+		fi
+		echo Syncronise $setname/$base
+		rm -f "$local"
+		ln -s "$file" "$local"
+	done
+}
+
+do_upload () {
+	msg=$1
+	test -n "$msg" || die "Give me a commit message"
+	git commit -a -m "$msg"
+	git push
+}
+
+do_status () {
+	git status --porcelain || die "Something wrong happened"
+}
+
+do_download () {
+	git pull || die "Impossible to download"
+}
+
+command="$1"
+case "$command" in
+install)
+	do_install $2 $3
+;;
+upload)
+	do_upload
+;;
+download)
+	do_download
+;;
+status)
+	do_status
+;;
+*)
+	usage
+;;
+esac
+
