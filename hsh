@@ -24,12 +24,31 @@ do_install () {
 		fi
 		if [ -e "$local" -a '!' -h "$local" ]
 		then
-			echo "Not syncing $base, file exists"
-			continue
+			mv "$local" "$local.bak"
 		fi
 		echo Syncronise $setname/$base
 		rm -f "$local"
 		ln -s "$file" "$local"
+	done
+}
+
+do_uninstall () {
+	setname=${1:-base}
+	filename="$2"
+	for file in `find "$BASE/home/$setname/" -mindepth 1 -maxdepth 1`
+	do
+		base=`basename $file`
+		local=$HOME/$base
+		if [ "$filename" != "" -a "$filename" != "$base" ]
+		then
+			continue
+		fi
+		if [ -h "$local" ]
+		then
+			echo Reload $setname/$base
+			rm "$local"
+			mv "$local.bak" "$local"
+		fi
 	done
 }
 
@@ -52,6 +71,9 @@ command="$1"
 case "$command" in
 install)
 	do_install $2 $3
+;;
+uninstall)
+	do_uninstall $2 $3
 ;;
 upload)
 	do_upload
