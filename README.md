@@ -43,24 +43,24 @@ Example of Usage
 
 A session should be like this:
 
-$ git clone https://github.com/guillermobox/hsh.git ~/.hsh/
+    $ git clone https://github.com/guillermobox/hsh.git ~/.hsh/
 
 Afterwards, just check the state of the sync'ed files:
 
-$ hsh install base
+    $ hsh install base
 
 If you have incompatible sets, like a bashrc for the set 'base' and the set
 'centos', the order of application will decide which will be installed:
 
-$ hsh install base centos
+    $ hsh install base centos
 
 When the synchronization is finished, you can change any file in your home,
 and:
 
-$ vim ~/.bashrc
-$ hsh upload "Now bashrc is more cool"
+    $ vim ~/.bashrc
+    $ hsh upload "Now bashrc is more cool"
 
 If you want to have the new files in another computer, just:
 
-$ hsh download
-$ hsh install base
+    $ hsh download
+    $ hsh install base
