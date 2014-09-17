@@ -27,8 +27,10 @@ Just run:
 where command can be:
 
   * install: make symbolic links for the files in the chosen set
+  * uninstall: remove the symbolic links, and try to recover the originals
   * upload: upload all the files to the server
   * download: download files from the server, but not install
+  * status: check server and local status
 
 The sets allow you to group configuration files, because probably you dont
 want to syncronize everything always. Yeah, keep it simple stupid.
