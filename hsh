@@ -60,7 +60,12 @@ do_upload () {
 }
 
 do_status () {
-	git status --porcelain || die "Something wrong happened"
+	if test -n "$1"; then
+		fullfilepath=`readlink "$HOME/$1"` || die "File not found in home"
+		\git diff $fullfilepath || die "File not found in repository"
+	else
+		git status --porcelain || die "Something wrong happened"
+	fi
 }
 
 do_download () {
@@ -76,13 +81,13 @@ uninstall)
 	do_uninstall $2 $3
 ;;
 upload)
-	do_upload
+	do_upload $2
 ;;
 download)
 	do_download
 ;;
 status)
-	do_status
+	do_status $2
 ;;
 *)
 	usage
