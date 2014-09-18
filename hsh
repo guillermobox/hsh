@@ -4,9 +4,8 @@
 # Copyright 2014 Guillermo Indalecio Fernandez
 #
 
-EXEC=`readlink -f ${BASH_SOURCE[0]}`
+EXEC=`readlink -f "$0"`
 DIR=`dirname "$EXEC"`
-BASE="$DIR"
 
 die () {
 	echo $1
@@ -16,7 +15,7 @@ die () {
 do_install () {
 	setname=${1:-base}
 	filename="$2"
-	for file in `find "$BASE/home/$setname/" -mindepth 1 -maxdepth 1`
+	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`
 	do
 		base=`basename $file`
 		local=$HOME/$base
@@ -37,7 +36,7 @@ do_install () {
 do_uninstall () {
 	setname=${1:-base}
 	filename="$2"
-	for file in `find "$BASE/home/$setname/" -mindepth 1 -maxdepth 1`
+	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`
 	do
 		base=`basename $file`
 		local=$HOME/$base
@@ -68,9 +67,9 @@ do_status () {
 		fullfilepath=`readlink "$HOME/$1"` || die "File not found in home"
 		git diff "$fullfilepath" || die "File not found in repository"
 	else
-		echo "Home files linked into the repository (modified in red)"
+		echo "Home files linked into the repository (modified in bold)"
 		echo
-		for file in `find $BASE/home/*/ -mindepth 1 -maxdepth 1`
+		for file in `find ./home/*/ -mindepth 1 -maxdepth 1`
 		do
 			base=`basename $file`
 			local=$HOME/$base
@@ -78,7 +77,7 @@ do_status () {
 				dir=`dirname "$file"`
 				set=`basename "$dir"`
 				if test -n "`git status --porcelain $file`"; then
-					echo -e "[$set] \033[31;2m$base\033[0m"
+					echo -e "[$set] \033[1m$base\033[0m"
 				else
 					echo "[$set] $base"
 				fi
