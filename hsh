@@ -26,7 +26,7 @@ do_install () {
 		then
 			mv "$local" "$local.bak"
 		fi
-		echo Syncronise $setname/$base
+		echo Installing [$setname] $base
 		rm -f "$local"
 		ln -s "$file" "$local"
 	done
@@ -45,9 +45,11 @@ do_uninstall () {
 		fi
 		if [ -h "$local" ]
 		then
-			echo Reload $setname/$base
+			echo Uninstalling [$setname] $base
 			rm "$local"
-			mv "$local.bak" "$local"
+			if [ -e "$local.bak" ]; then
+				mv "$local.bak" "$local"
+			fi
 		fi
 	done
 }
@@ -62,9 +64,27 @@ do_upload () {
 do_status () {
 	if test -n "$1"; then
 		fullfilepath=`readlink "$HOME/$1"` || die "File not found in home"
-		\git diff $fullfilepath || die "File not found in repository"
+		git diff $fullfilepath || die "File not found in repository"
 	else
-		git status --porcelain || die "Something wrong happened"
+		echo "Home files linked into the repository (modified in red)"
+		echo
+		for file in `find $BASE/home/*/ -mindepth 1 -maxdepth 1`
+		do
+			base=`basename $file`
+			local=$HOME/$base
+			if [ -h "$local" ]; then
+				if [ "$file" -ef `readlink "$local"` ]; then
+					dir=`dirname "$file"`
+					set=`basename "$dir"`
+					if test -n "`git status --porcelain $file`"; then
+						echo -e "[$set] \033[31;2m$base\033[0m"
+					else
+						echo "[$set] $base"
+					fi
+				fi
+			fi
+		done
+		echo
 	fi
 }
 
@@ -72,6 +92,23 @@ do_download () {
 	git pull || die "Impossible to download"
 }
 
+usage () {
+	echo
+	echo "Home Sweet Home (hsh)"
+	echo
+	echo "Usage: hsh <command> [<options>]"
+	echo
+	echo "Where command is one of:"
+	echo
+	echo "     install: Link the files in the specified sets into home"
+	echo "   uninstall: Try to recover the original files in your home"
+	echo "      upload: Push the changes in the files to the repository"
+	echo "    download: Update your files with the repository version"
+	echo "      status: Get info about installed files and possible changes not commited"
+	echo
+}
+
+# Dispatch the command entered by the user here
 command="$1"
 case "$command" in
 install)
