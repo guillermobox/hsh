@@ -20,3 +20,4 @@ nmap <F3> :bnext<CR>
 set background=light
 set mouse=a
 
+set nohlsearch

@@ -4,7 +4,9 @@
 # Copyright 2014 Guillermo Indalecio Fernandez
 #
 
-BASE=$PWD
+EXEC=`readlink -f ${BASH_SOURCE[0]}`
+DIR=`dirname "$EXEC"`
+BASE="$DIR"
 
 die () {
 	echo $1
@@ -64,7 +66,7 @@ do_upload () {
 do_status () {
 	if test -n "$1"; then
 		fullfilepath=`readlink "$HOME/$1"` || die "File not found in home"
-		git diff $fullfilepath || die "File not found in repository"
+		git diff "$fullfilepath" || die "File not found in repository"
 	else
 		echo "Home files linked into the repository (modified in red)"
 		echo
@@ -72,15 +74,13 @@ do_status () {
 		do
 			base=`basename $file`
 			local=$HOME/$base
-			if [ -h "$local" ]; then
-				if [ "$file" -ef `readlink "$local"` ]; then
-					dir=`dirname "$file"`
-					set=`basename "$dir"`
-					if test -n "`git status --porcelain $file`"; then
-						echo -e "[$set] \033[31;2m$base\033[0m"
-					else
-						echo "[$set] $base"
-					fi
+			if [ -h "$local" -a "$file" -ef `readlink "$local"` ]; then
+				dir=`dirname "$file"`
+				set=`basename "$dir"`
+				if test -n "`git status --porcelain $file`"; then
+					echo -e "[$set] \033[31;2m$base\033[0m"
+				else
+					echo "[$set] $base"
 				fi
 			fi
 		done
@@ -109,25 +109,30 @@ usage () {
 }
 
 # Dispatch the command entered by the user here
-command="$1"
-case "$command" in
-install)
-	do_install $2 $3
-;;
-uninstall)
-	do_uninstall $2 $3
-;;
-upload)
-	do_upload $2
-;;
-download)
-	do_download
-;;
-status)
-	do_status $2
-;;
-*)
-	usage
-;;
-esac
+main () {
+	cd "$DIR"
+	command="$1"
+	case "$command" in
+		install)
+		do_install $2 $3
+		;;
+		uninstall)
+		do_uninstall $2 $3
+		;;
+		upload)
+		do_upload $2
+		;;
+		download)
+		do_download
+		;;
+		status)
+		do_status $2
+		;;
+		*)
+		usage
+		;;
+	esac
+}
+
+(main $@)
 
