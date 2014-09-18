@@ -65,7 +65,7 @@ do_upload () {
 do_status () {
 	if test -n "$1"; then
 		fullfilepath=`readlink "$HOME/$1"` || die "File not found in home"
-		git diff "$fullfilepath" || die "File not found in repository"
+		git diff "$fullfilepath" | tail -n +5 || die "File not found in repository"
 	else
 		echo "Home files linked into the repository (modified in bold)"
 		echo
@@ -77,9 +77,9 @@ do_status () {
 				dir=`dirname "$file"`
 				set=`basename "$dir"`
 				if test -n "`git status --porcelain $file`"; then
-					echo -e "[$set] \033[1m$base\033[0m"
+					echo -e "  \033[1m$base\033[0m @ $set"
 				else
-					echo "[$set] $base"
+					echo "  $base @ $set"
 				fi
 			fi
 		done
