@@ -5,8 +5,8 @@ Just a tool to syncronize dotfiles between machines. The idea is to use a
 github repository both because of the accesibility, the history capabilities,
 and the coolness implied.  Coolness is a deciding factor here. Deal with it.
 
-Anyway, several other solutions exists to do the same, but they are really
-overkill. The hability to merge several git repositories, sym link directories,
+Anyway, several other solutions exist to do the same, but they are really
+overkill. The ability to merge several git repositories, sym link directories,
 and share dot files clutters the interface, so the user has to deal with lots
 of commands to do something really simple: sync files from a repository to the
 computer, and maybe update them. So I am reinventing the wheel, but a
@@ -35,10 +35,9 @@ where command can be:
   * rm: remove a dotfile from the repository, removing the set if empty
   * git: run any git command from inside the hsh repository (do expert things here)
 
-The sets allow you to group configuration files, because probably you dont want
-to syncronize everything always. But you dont have to explicitly create them,
-they are created when you add and destroyed when you rm. Yeah, keep it simple
-stupid.
+The sets allow you to group configuration files, because probably you don't want
+to syncronize everything always. But you don't have to explicitly create them,
+they are automatically created and destroyed. Yeah, keep it simple stupid.
 
 Contributing
 ------------
@@ -71,7 +70,7 @@ and:
 
     $ vim ~/.bashrc
     $ hsh status
-    $ hsh upload "Now bashrc is more cool"
+    $ hsh upload "Now bashrc is even cooler"
 
 If you want to have the new files in another computer that is already using
 hsh to manage the home files, just:

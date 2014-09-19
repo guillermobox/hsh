@@ -2,6 +2,7 @@ set autoindent
 filetype plugin indent on
 hi ColorColumn ctermbg=lightblue guibg=lightblue
 
+
 set nowrap
 set backspace=indent,eol,start
 set list
