@@ -21,3 +21,4 @@ set background=light
 set mouse=a
 
 set nohlsearch
+

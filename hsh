@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 #
-# Home Sweet Home - Syncronize dotfiles and configure systems
+# Home Sweet Home - The easy to use, KISS, dot-file manager
 # Copyright 2014 Guillermo Indalecio Fernandez
 #
 
@@ -15,6 +15,7 @@ die () {
 do_install () {
 	setname=${1:-base}
 	filename="$2"
+	echo
 	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`
 	do
 		base=`basename "$file"`
@@ -32,11 +33,13 @@ do_install () {
 		rm -f "$local"
 		ln -s "$file" "$local"
 	done
+	echo
 }
 
 do_uninstall () {
 	setname=${1:-base}
 	filename="$2"
+	echo
 	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`
 	do
 		base=`basename $file`
@@ -54,6 +57,7 @@ do_uninstall () {
 			fi
 		fi
 	done
+	echo
 }
 
 do_upload () {
@@ -74,27 +78,27 @@ do_status () {
 		do
 			base=`basename $file`
 			local=$HOME/$base
+			dir=`dirname "$file"`
+			set=`basename "$dir"`
 			if [ -h "$local" -a "$file" -ef `readlink -f "$local"` ]; then
-				dir=`dirname "$file"`
-				set=`basename "$dir"`
 				if test -n "`git status --porcelain $file`"; then
-					output="$output\n""  \033[1m$base\033[0m @ $set (linked)"
+					output="$output\n""`printf "  \033[31;2m%20s   %10s  linked, modified\033[0m" "$base" "$set"`"
 				else
-					output="$output\n""  $base @ $set (linked)"
+					output="$output\n""`printf "  %20s   %10s  linked" "$base" "$set"`"
 				fi
 			else
-				dir=`dirname "$file"`
-				set=`basename "$dir"`
 				if test -n "`git status --porcelain $file`"; then
-					output="$output\n""  \033[1m$base\033[0m @ $set"
+					output="$output\n""`printf "  \033[31;2m%20s   %10s  modified\033[0m" "$base" "$set"`"
 				else
-					output="$output\n""  $base @ $set"
+					output="$output\n""`printf "  %20s   %10s" "$base" "$set"`"
 				fi
 			fi
 		done
 		if test -n "$output"; then
 			echo
-			echo "Home files linked into the repository (modified in bold):"
+			echo "Home files available from the repository:"
+			echo
+			printf "  \033[1m%20s   %10s  Status\033[0m" "Dotfile" "Set"
 			echo -e "$output"
 			echo
 		else
@@ -103,15 +107,14 @@ do_status () {
 			echo
 		fi
 		if test -n "`git status --porcelain hsh`"; then
-			echo "The hsh script is modified"
+			echo "The hsh script is also modified!"
 			echo
 		fi
-
 	fi
 }
 
 do_download () {
-	git pull || die "Impossible to download"
+	git pull || die "Impossible to download, why oh why?"
 }
 
 do_git () {
@@ -119,42 +122,59 @@ do_git () {
 }
 
 do_add () {
-	basename="$1"
-	setname="$2"
+	setname="${1:-base}"
+	basename="$2"
 	homefile="$HOME/$basename"
+	destination="./home/$setname/$basename"
 	if [ -e "$homefile" ]; then
-		destination="./home/$setname/$basename"
+		homefile=`readlink -f "$homefile"`
+		echo
+		if [ ! -d "./home/$setname/" ]; then
+			mkdir -p "./home/$setname/"
+			echo "Set [$setname] created"
+		fi
 		cp "$homefile" "$destination"
+		echo "Added [$setname] $basename"
+		echo
 	fi
 }
 
 do_rm () {
-	basename="$1"
-	setname="$2"
+	setname="${1:-base}"
+	basename="$2"
 	homefile="$HOME/$basename"
 	destination="./home/$setname/$basename"
 	if [ -e "$destination" ]; then
+		echo
 		rm "$destination"
+		echo "Removed [$setname] $basename"
+		if [ -z "`ls -A "./home/$setname/"`" ]; then
+			rmdir "./home/$setname/"
+			echo "Set [$setname] removed"
+		fi
+		echo
 	fi
 }
 
 usage () {
-	echo
-	echo "Home Sweet Home (hsh)"
-	echo
-	echo "Usage: hsh <command> [<options>]"
-	echo
-	echo "Where command is one of:"
-	echo
-	echo "      status: Get info about installed files and possible changes not commited"
-	echo "     install: Link the files in the specified sets into home"
-	echo "   uninstall: Remove links from home, and try to recover the original files in your home"
-	echo "      upload: Push the changes in the files to the online repository"
-	echo "    download: Update your files with the online repository version"
-	echo "         add: Add a file from home to the repository, create a set if needed"
-	echo "          rm: Remove a file from the respository, removing the set if it gets emptied"
-	echo "         git: Run a command in git, from inside the hsh folder (experts here)"
-	echo
+	tee <<USAGEEOF
+
+Home Sweet Home (hsh) -- The easy to use, KISS, dot-file manager
+
+Usage: hsh <command> [<options>]
+
+Where command is one of:
+
+      status: Get info about installed files and possible changes not commited
+     install: Link the files in the specified sets into home
+   uninstall: Remove links from home, and try to recover the original files in your home
+      upload: Push the changes in the files to the online repository
+    download: Update your files with the online repository version
+         add: Add a file from home to the repository, create a set if needed
+          rm: Remove a file from the respository, removing the set if it gets emptied
+         git: Run a command in git, from inside the hsh folder (experts here)
+
+USAGEEOF
 }
 
 # Dispatch the command entered by the user here
