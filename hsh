@@ -8,7 +8,7 @@ EXEC=`readlink -f "$0"`
 DIR=`dirname "$EXEC"`
 
 die () {
-	echo $1
+	echo "$1"
 	exit 1
 }
 
@@ -17,7 +17,8 @@ do_install () {
 	filename="$2"
 	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`
 	do
-		base=`basename $file`
+		base=`basename "$file"`
+		file=`readlink -f "$file"`
 		local=$HOME/$base
 		if [ "$filename" != "" -a "$filename" != "$base" ]
 		then
@@ -27,7 +28,7 @@ do_install () {
 		then
 			mv "$local" "$local.bak"
 		fi
-		echo Installing [$setname] $base
+		echo "Installing [$setname] $base"
 		rm -f "$local"
 		ln -s "$file" "$local"
 	done
@@ -46,7 +47,7 @@ do_uninstall () {
 		fi
 		if [ -h "$local" ]
 		then
-			echo Uninstalling [$setname] $base
+			echo "Uninstalling [$setname] $base"
 			rm "$local"
 			if [ -e "$local.bak" ]; then
 				mv "$local.bak" "$local"
@@ -64,31 +65,56 @@ do_upload () {
 
 do_status () {
 	if test -n "$1"; then
-		fullfilepath=`readlink "$HOME/$1"` || die "File not found in home"
-		git diff "$fullfilepath" | tail -n +5 || die "File not found in repository"
+		fullfilepath=`readlink -f "$HOME/$1"` || die "File not found in home"
+		git diff --src-prefix="hsh@" --dst-prefix="home@" "$fullfilepath" || die "File not found in repository"
 	else
-		echo "Home files linked into the repository (modified in bold)"
-		echo
+		output=""
 		for file in `find ./home/*/ -mindepth 1 -maxdepth 1`
 		do
 			base=`basename $file`
 			local=$HOME/$base
-			if [ -h "$local" -a "$file" -ef `readlink "$local"` ]; then
+			if [ -h "$local" -a "$file" -ef `readlink -f "$local"` ]; then
 				dir=`dirname "$file"`
 				set=`basename "$dir"`
 				if test -n "`git status --porcelain $file`"; then
-					echo -e "  \033[1m$base\033[0m @ $set"
+					output="$output\n""  \033[1m$base\033[0m @ $set (linked)"
 				else
-					echo "  $base @ $set"
+					output="$output\n""  $base @ $set (linked)"
+				fi
+			else
+				dir=`dirname "$file"`
+				set=`basename "$dir"`
+				if test -n "`git status --porcelain $file`"; then
+					output="$output\n""  \033[1m$base\033[0m @ $set"
+				else
+					output="$output\n""  $base @ $set"
 				fi
 			fi
 		done
-		echo
+		if test -n "$output"; then
+			echo
+			echo "Home files linked into the repository (modified in bold):"
+			echo -e "$output"
+			echo
+		else
+			echo
+			echo "There are no installed files, use hsh install to install a new set"
+			echo
+		fi
+		if test -n "`git status --porcelain hsh`"; then
+			echo "The hsh script is modified"
+			echo
+		fi
+
 	fi
 }
 
 do_download () {
 	git pull || die "Impossible to download"
+}
+
+do_git () {
+	git $@
 }
 
 usage () {
@@ -104,6 +130,7 @@ usage () {
 	echo "      upload: Push the changes in the files to the repository"
 	echo "    download: Update your files with the repository version"
 	echo "      status: Get info about installed files and possible changes not commited"
+	echo "         git: Run a command in git, from inside the hsh folder"
 	echo
 }
 
@@ -126,6 +153,10 @@ main () {
 		;;
 		status)
 		do_status $2
+		;;
+		git)
+		shift
+		do_git $@
 		;;
 		*)
 		usage
