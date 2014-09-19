@@ -94,7 +94,7 @@ do_status () {
 		if test -n "$output"; then
 			echo
 			echo "Home files linked into the repository (modified in bold):"
-			echo -e "$output"
+			echo "$output"
 			echo
 		else
 			echo
@@ -115,6 +115,26 @@ do_download () {
 
 do_git () {
 	git $@
+}
+
+do_track () {
+	basename="$1"
+	setname="$2"
+	homefile="$HOME/$basename"
+	if [ -e "$homefile" ]; then
+		destination="./home/$setname/$basename"
+		cp "$homefile" "$destination"
+	fi
+}
+
+do_untrack () {
+	basename="$1"
+	setname="$2"
+	homefile="$HOME/$basename"
+	destination="./home/$setname/$basename"
+	if [ -e "$destination" ]; then
+		rm "$destination"
+	fi
 }
 
 usage () {
@@ -150,6 +170,12 @@ main () {
 		;;
 		download)
 		do_download
+		;;
+		track)
+		do_track $2 $3
+		;;
+		untrack)
+		do_untrack $2 $3
 		;;
 		status)
 		do_status $2
