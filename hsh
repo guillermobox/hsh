@@ -48,7 +48,7 @@ do_uninstall () {
 		then
 			continue
 		fi
-		if [ -h "$local" ]
+		if [ -h "$local" -a "$local" -ef "$file" ]
 		then
 			echo "Uninstalling [$setname] $base"
 			rm "$local"
