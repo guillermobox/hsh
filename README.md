@@ -31,6 +31,7 @@ where command can be:
   * upload: upload all the files to the server
   * download: download files from the server, but not install
   * status: check server and local status
+  * git: run any git command from inside the hsh repository (do expert things here)
 
 The sets allow you to group configuration files, because probably you dont
 want to syncronize everything always. Yeah, keep it simple stupid.
@@ -52,17 +53,26 @@ Afterwards, just check the state of the sync'ed files:
     $ hsh install base
 
 If you have incompatible sets, like a bashrc for the set 'base' and the set
-'centos', the order of application will decide which will be installed:
+'centos', the last used will overwrite files from the previous one:
 
-    $ hsh install base centos
+    $ hsh install centos
 
 When the synchronization is finished, you can change any file in your home,
 and:
 
     $ vim ~/.bashrc
+    $ hsh status
     $ hsh upload "Now bashrc is more cool"
 
-If you want to have the new files in another computer, just:
+If you want to have the new files in another computer that is already using
+hsh to manage the home files, just:
 
     $ hsh download
-    $ hsh install base
+
+In any case, this is just a git repository, so you can run any git command in
+there. To do so, use the git command in hsh:
+
+    $ hsh git checkout home/base/.gitconfig
+
+
+
