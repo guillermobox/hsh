@@ -61,6 +61,11 @@ If you have incompatible sets, like a bashrc for the set 'base' and the set
 
     $ hsh install centos
 
+If you don't specify a set name, base will be used. You can specify only a file,
+if you don't want to install or uninstall all the set, like this:
+
+    $ hsh install base .bashrc
+
 When the synchronization is finished, you can change any file in your home,
 and:
 
@@ -79,3 +84,12 @@ can run any git command in there. To do so, use the git command in hsh:
 
     $ hsh git checkout home/base/.gitconfig
 
+In order to add files, or remove them, from the repository, you can use the
+commands add and rm, stating the set that you want to use. Like this:
+
+    $ hsh add centos .bashrc
+    $ hsh add centos .vimrc
+    $ hsh rm base .vimrc
+
+Don't worry about creating or destroying sets, that is my job. Mind your
+bussiness.

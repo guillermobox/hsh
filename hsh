@@ -122,7 +122,7 @@ do_git () {
 }
 
 do_add () {
-	setname="${1:-base}"
+	setname="$1"
 	basename="$2"
 	homefile="$HOME/$basename"
 	destination="./home/$setname/$basename"
@@ -140,7 +140,7 @@ do_add () {
 }
 
 do_rm () {
-	setname="${1:-base}"
+	setname="$1"
 	basename="$2"
 	homefile="$HOME/$basename"
 	destination="./home/$setname/$basename"
