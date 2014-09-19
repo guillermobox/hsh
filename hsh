@@ -59,6 +59,7 @@ do_uninstall () {
 do_upload () {
 	msg=$1
 	test -n "$msg" || die "Give me a commit message"
+	git add ./home/
 	git commit -a -m "$msg"
 	git push
 }
@@ -94,7 +95,7 @@ do_status () {
 		if test -n "$output"; then
 			echo
 			echo "Home files linked into the repository (modified in bold):"
-			echo "$output"
+			echo -e "$output"
 			echo
 		else
 			echo
@@ -117,7 +118,7 @@ do_git () {
 	git $@
 }
 
-do_track () {
+do_add () {
 	basename="$1"
 	setname="$2"
 	homefile="$HOME/$basename"
@@ -127,7 +128,7 @@ do_track () {
 	fi
 }
 
-do_untrack () {
+do_rm () {
 	basename="$1"
 	setname="$2"
 	homefile="$HOME/$basename"
@@ -145,12 +146,14 @@ usage () {
 	echo
 	echo "Where command is one of:"
 	echo
-	echo "     install: Link the files in the specified sets into home"
-	echo "   uninstall: Try to recover the original files in your home"
-	echo "      upload: Push the changes in the files to the repository"
-	echo "    download: Update your files with the repository version"
 	echo "      status: Get info about installed files and possible changes not commited"
-	echo "         git: Run a command in git, from inside the hsh folder"
+	echo "     install: Link the files in the specified sets into home"
+	echo "   uninstall: Remove links from home, and try to recover the original files in your home"
+	echo "      upload: Push the changes in the files to the online repository"
+	echo "    download: Update your files with the online repository version"
+	echo "         add: Add a file from home to the repository, create a set if needed"
+	echo "          rm: Remove a file from the respository, removing the set if it gets emptied"
+	echo "         git: Run a command in git, from inside the hsh folder (experts here)"
 	echo
 }
 
@@ -171,11 +174,11 @@ main () {
 		download)
 		do_download
 		;;
-		track)
-		do_track $2 $3
+		add)
+		do_add $2 $3
 		;;
-		untrack)
-		do_untrack $2 $3
+		rm)
+		do_rm $2 $3
 		;;
 		status)
 		do_status $2
