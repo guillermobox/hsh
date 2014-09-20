@@ -16,17 +16,14 @@ do_install () {
 	setname=${1:-base}
 	filename="$2"
 	echo
-	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`
-	do
+	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`; do
 		base=`basename "$file"`
 		file=`readlink -f "$file"`
 		local=$HOME/$base
-		if [ "$filename" != "" -a "$filename" != "$base" ]
-		then
+		if [ "$filename" != "" -a "$filename" != "$base" ]; then
 			continue
 		fi
-		if [ -e "$local" -a '!' -h "$local" ]
-		then
+		if [ -e "$local" -a '!' -h "$local" ]; then
 			mv "$local" "$local.bak"
 		fi
 		echo "Installing [$setname] $base"
@@ -44,12 +41,10 @@ do_uninstall () {
 	do
 		base=`basename $file`
 		local=$HOME/$base
-		if [ "$filename" != "" -a "$filename" != "$base" ]
-		then
+		if [ "$filename" != "" -a "$filename" != "$base" ]; then
 			continue
 		fi
-		if [ -h "$local" -a "$local" -ef "$file" ]
-		then
+		if [ -h "$local" -a "$local" -ef "$file" ]; then
 			echo "Uninstalling [$setname] $base"
 			rm "$local"
 			if [ -e "$local.bak" ]; then
@@ -74,8 +69,7 @@ do_status () {
 		git diff --src-prefix="hsh@" --dst-prefix="home@" "$fullfilepath" || die "File not found in repository"
 	else
 		output=""
-		for file in `find ./home/*/ -mindepth 1 -maxdepth 1`
-		do
+		for file in `find ./home/*/ -mindepth 1 -maxdepth 1`; do
 			base=`basename $file`
 			local=$HOME/$base
 			dir=`dirname "$file"`
@@ -181,31 +175,10 @@ USAGEEOF
 main () {
 	cd "$DIR"
 	command="$1"
+	shift
 	case "$command" in
-		install)
-		do_install $2 $3
-		;;
-		uninstall)
-		do_uninstall $2 $3
-		;;
-		upload)
-		do_upload $2
-		;;
-		download)
-		do_download
-		;;
-		add)
-		do_add $2 $3
-		;;
-		rm)
-		do_rm $2 $3
-		;;
-		status)
-		do_status $2
-		;;
-		git)
-		shift
-		do_git $@
+		upload|download|install|uninstall|status|add|rm|git)
+		do_$command $@
 		;;
 		*)
 		usage
