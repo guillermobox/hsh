@@ -4,7 +4,7 @@
 # Copyright 2014 Guillermo Indalecio Fernandez
 #
 
-EXEC=`readlink -f "$0"`
+EXEC=`readlink -e "$0"`
 DIR=`dirname "$EXEC"`
 	
 die () {
@@ -12,60 +12,13 @@ die () {
 	exit 1
 }
 
-do_install () {
-	setname=${1:-base}
-	filename="$2"
-	echo
-	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`; do
-		base=`basename "$file"`
-		file=`readlink -f "$file"`
-		local=$HOME/$base
-		if [ "$filename" != "" -a "$filename" != "$base" ]; then
-			continue
-		fi
-		if [ -e "$local" -a '!' -h "$local" ]; then
-			mv "$local" "$local.bak"
-		fi
-		echo "Installing [$setname] $base"
-		rm -f "$local"
-		ln -s "$file" "$local"
-	done
-	echo
-}
-
-do_uninstall () {
-	setname=${1:-base}
-	filename="$2"
-	echo
-	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`
-	do
-		base=`basename $file`
-		local=$HOME/$base
-		if [ "$filename" != "" -a "$filename" != "$base" ]; then
-			continue
-		fi
-		if [ -h "$local" -a "$local" -ef "$file" ]; then
-			echo "Uninstalling [$setname] $base"
-			rm "$local"
-			if [ -e "$local.bak" ]; then
-				mv "$local.bak" "$local"
-			fi
-		fi
-	done
-	echo
-}
-
-do_upload () {
-	msg=$1
-	test -n "$msg" || die "Give me a commit message"
-	git add ./home/
-	git commit -a -m "$msg"
-	git push
-}
-
 do_status () {
 	if test -n "$1"; then
-		fullfilepath=`readlink -f "$HOME/$1"` || die "File not found in home"
+		if test -n "$2"; then
+			fullfilepath="./home/$1/$2"
+		else
+			fullfilepath=`readlink -e "$HOME/$1"` || die "File not found in home"
+		fi
 		git diff --src-prefix="hsh@" --dst-prefix="home@" "$fullfilepath" || die "File not found in repository"
 	else
 		output=""
@@ -74,7 +27,7 @@ do_status () {
 			local=$HOME/$base
 			dir=`dirname "$file"`
 			set=`basename "$dir"`
-			if [ -h "$local" -a "$file" -ef `readlink -f "$local"` ]; then
+			if [ -h "$local" -a "$file" -ef `readlink -e "$local"` ]; then
 				if test -n "`git status --porcelain $file`"; then
 					output="$output\n""`printf "  \033[31;2m%20s   %10s  linked, modified\033[0m" "$base" "$set"`"
 				else
@@ -107,12 +60,55 @@ do_status () {
 	fi
 }
 
-do_download () {
-	git pull || die "Impossible to download, why oh why?"
+do_install () {
+	setname=${1:-base}
+	filename="$2"
+	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`; do
+		base=`basename "$file"`
+		file=`readlink -e "$file"`
+		local=$HOME/$base
+		if [ "$filename" != "" -a "$filename" != "$base" ]; then
+			continue
+		fi
+		if [ -e "$local" -a '!' -h "$local" ]; then
+			mv "$local" "$local.bak"
+		fi
+		rm -f "$local"
+		ln -s "$file" "$local"
+		echo "Installed $setname/$base"
+	done
 }
 
-do_git () {
-	git $@
+do_uninstall () {
+	setname=${1:-base}
+	filename="$2"
+	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`
+	do
+		base=`basename $file`
+		local=$HOME/$base
+		if [ "$filename" != "" -a "$filename" != "$base" ]; then
+			continue
+		fi
+		if [ -h "$local" -a "$local" -ef "$file" ]; then
+			rm "$local"
+			if [ -e "$local.bak" ]; then
+				mv "$local.bak" "$local"
+			fi
+			echo "Uninstalled $setname/$base"
+		fi
+	done
+}
+
+do_upload () {
+	msg=$1
+	test -n "$msg" || die "Give me a commit message"
+	git add ./home/
+	git commit -a -m "$msg"
+	git push
+}
+
+do_download () {
+	git pull || die "Impossible to download, why oh why?"
 }
 
 do_add () {
@@ -121,15 +117,13 @@ do_add () {
 	homefile="$HOME/$basename"
 	destination="./home/$setname/$basename"
 	if [ -e "$homefile" ]; then
-		homefile=`readlink -f "$homefile"`
-		echo
+		homefile=`readlink -e "$homefile"`
 		if [ ! -d "./home/$setname/" ]; then
 			mkdir -p "./home/$setname/"
-			echo "Set [$setname] created"
+			echo "Set $setname created"
 		fi
 		cp "$homefile" "$destination"
-		echo "Added [$setname] $basename"
-		echo
+		echo "Added $setname/$basename"
 	fi
 }
 
@@ -139,15 +133,18 @@ do_rm () {
 	homefile="$HOME/$basename"
 	destination="./home/$setname/$basename"
 	if [ -e "$destination" ]; then
-		echo
+		do_uninstall "$setname" "$basename"
 		rm "$destination"
-		echo "Removed [$setname] $basename"
+		echo "Removed $setname/$basename"
 		if [ -z "`ls -A "./home/$setname/"`" ]; then
 			rmdir "./home/$setname/"
-			echo "Set [$setname] removed"
+			echo "Set $setname removed"
 		fi
-		echo
 	fi
+}
+
+do_git () {
+	git $@
 }
 
 usage () {
@@ -186,5 +183,5 @@ main () {
 	esac
 }
 
-(main $@)
+main $@
 
