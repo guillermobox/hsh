@@ -116,7 +116,7 @@ do_add () {
 			mkdir -p "./home/$setname/"
 			echo "Set $setname created"
 		fi
-		cp "$homefile" "$destination"
+		cp -r "$homefile" "$destination"
 		echo "Added $setname/$basename"
 	fi
 }
