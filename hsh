@@ -6,7 +6,7 @@
 
 EXEC=`readlink -f "$0"`
 DIR=`dirname "$EXEC"`
-
+	
 die () {
 	echo "$1"
 	exit 1
@@ -93,7 +93,7 @@ do_status () {
 			echo "Home files available from the repository:"
 			echo
 			printf "  \033[1m%20s   %10s  Status\033[0m" "Dotfile" "Set"
-			echo -e "$output"
+			printf "%b\n" "$output"
 			echo
 		else
 			echo
@@ -175,9 +175,9 @@ USAGEEOF
 main () {
 	cd "$DIR"
 	command="$1"
-	shift
 	case "$command" in
 		upload|download|install|uninstall|status|add|rm|git)
+		shift
 		do_$command $@
 		;;
 		*)
