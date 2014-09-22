@@ -152,16 +152,31 @@ Home Sweet Home (hsh) -- The easy to use, KISS, dot-file manager
 
 Usage: hsh <command> [<options>]
 
-Where command is one of:
+Where command can take this shapes:
 
-      status: Get info about installed files and possible changes not commited
-     install: Link the files in the specified sets into home
-   uninstall: Remove links from home, and try to recover the original files in your home
-      upload: Push the changes in the files to the online repository
-    download: Update your files with the online repository version
-         add: Add a file from home to the repository, create a set if needed
-          rm: Remove a file from the respository, removing the set if it gets emptied
-         git: Run a command in git, from inside the hsh folder (experts here)
+    hsh status [<dotfile>]
+        Get info about the repository. If you state a dotfile name, I'll
+        give a git-diff.
+
+    hsh [install|uninstall] <set> [<dotfile>]
+        Link, or de-link a set of dotfiles in your home folder. This operation
+        is secure, a backup of the original dotfiles found in your folder will
+        be made, so don't worry. If you state a file name, I'll only link
+        a certain dotfile of the set.
+
+    hsh [add|rm] <set> <dotfile>
+        Add or remove a dotfile from the repository. I'll create and destroy the
+        set automatically as needed.
+
+    hsh upload <commitmsg>
+        Upload the changes to the remote repository. Use hsh status to know
+        beforehand the changes in the tracked dotfiles.
+
+    hsh download
+        Download the dotfiles found in the repository.
+
+    hsh git [<git commands>]
+        Run a certain git command in the repository (experts here)
 
 USAGEEOF
 }
