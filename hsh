@@ -26,14 +26,14 @@ do_status () {
 				local localname="$HOME/$basename"
 				local directory=`dirname "$file"`
 				local setname=`basename "$setname"`
-				if test -h "$localname" -a "$file" -ef `readlink -e "$localname"`; then
-					if test -n "`git status --porcelain $file`"; then
+				if test -h "$localname" -a "./home/$setname/$file" -ef `readlink -e "$localname"`; then
+					if test -n "`git status --porcelain ./home/$setname/$file`"; then
 						output="$output\n""`printf "  \033[31;2m%10s %-15s  linked, modified\033[0m" "$setname" "$basename"`"
 					else
 						output="$output\n""`printf "  %10s %-15s  linked" "$setname" "$basename"`"
 					fi
 				else
-					if test -n "`git status --porcelain $file`"; then
+					if test -n "`git status --porcelain ./home/$setname/$file`"; then
 						output="$output\n""`printf "  \033[31;2m%10s %-15s  modified\033[0m" "$setname" "$basename"`"
 					else
 						output="$output\n""`printf "  %10s %-15s" "$setname" "$basename"`"
@@ -120,6 +120,19 @@ do_upload () {
 
 do_download () {
 	git pull || die "Impossible to download, why oh why?"
+	for homefile in $HOME/.*; do
+		if test -h "$homefile"; then
+			local linkedfile=`readlink -m "$homefile"`
+			local linkeddir=`dirname "$linkedfile"`
+			if test "${linkeddir##$directory}" = "/home/base" -a ! -e "$linkedfile"; then
+				echo "Recovering orphaned file: $homefile"
+				rm "$homefile"
+				if test -e "$homefile.bak"; then
+					mv "$homefile.bak" "$homefile"
+				fi
+			fi
+		fi
+	done
 }
 
 do_add () {
@@ -209,13 +222,13 @@ USAGEEOF
 
 # Dispatch the command entered by the user here
 main () {
-	local executable=`readlink -e "$0"`
-	local directory=`dirname "$executable"`
+	executable=`readlink -e "$0"`
+	directory=`dirname "$executable"`
 	local command="$1"
 
 	cd "$directory"
 	case "$command" in
-		upload|download|install|uninstall|status|add|rm|git)
+		upload|download|install|uninstall|status|add|rm|git|test)
 		shift
 		do_$command $@
 		;;
