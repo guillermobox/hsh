@@ -4,9 +4,6 @@
 # Copyright 2014 Guillermo Indalecio Fernandez
 #
 
-EXEC=`readlink -e "$0"`
-DIR=`dirname "$EXEC"`
-
 die () {
 	echo "$1"
 	exit 1
@@ -14,6 +11,7 @@ die () {
 
 do_status () {
 	if test -n "$1"; then
+		local fullfilepath=""
 		if test -n "$2"; then
 			fullfilepath="./home/$1/$2"
 		else
@@ -21,25 +19,27 @@ do_status () {
 		fi
 		git diff --src-prefix="hsh@" --dst-prefix="home@" "$fullfilepath" || die "File not found in repository"
 	else
-		output=""
-		for file in `find ./home/*/ -mindepth 1 -maxdepth 1 2>/dev/null`; do
-			base=`basename $file`
-			local=$HOME/$base
-			dir=`dirname "$file"`
-			set=`basename "$dir"`
-			if [ -h "$local" -a "$file" -ef `readlink -e "$local"` ]; then
-				if test -n "`git status --porcelain $file`"; then
-					output="$output\n""`printf "  \033[31;2m%10s %-15s  linked, modified\033[0m" "$set" "$base"`"
+		local output=""
+		for setname in `cd ./home && find . ! -name . -prune`;do
+			for file in `cd ./home/$setname/ && find . ! -name . -prune`; do
+				local basename=`basename $file`
+				local localname="$HOME/$basename"
+				local directory=`dirname "$file"`
+				local setname=`basename "$setname"`
+				if test -h "$localname" -a "$file" -ef `readlink -e "$localname"`; then
+					if test -n "`git status --porcelain $file`"; then
+						output="$output\n""`printf "  \033[31;2m%10s %-15s  linked, modified\033[0m" "$setname" "$basename"`"
+					else
+						output="$output\n""`printf "  %10s %-15s  linked" "$setname" "$basename"`"
+					fi
 				else
-					output="$output\n""`printf "  %10s %-15s  linked" "$set" "$base"`"
+					if test -n "`git status --porcelain $file`"; then
+						output="$output\n""`printf "  \033[31;2m%10s %-15s  modified\033[0m" "$setname" "$basename"`"
+					else
+						output="$output\n""`printf "  %10s %-15s" "$setname" "$basename"`"
+					fi
 				fi
-			else
-				if test -n "`git status --porcelain $file`"; then
-					output="$output\n""`printf "  \033[31;2m%10s %-15s  modified\033[0m" "$set" "$base"`"
-				else
-					output="$output\n""`printf "  %10s %-15s" "$set" "$base"`"
-				fi
-			fi
+			done
 		done
 		if test -n "$output"; then
 			printf "  \033[1m%10s %-15s  Status\033[0m" "Set" "Dotfile"
@@ -51,65 +51,70 @@ do_status () {
 }
 
 do_install () {
-	setname="$1"
-	filename="$2"
+	local setname="$1"
+	local filename="$2"
+
 	if test -z "$setname"; then
 		echo "Please give me a set name"
 		return 1
 	fi
 	if test ! -d "./home/$setname/"; then
-		echo "Set not found: $test"
+		echo "Set not found: $setname"
 		return 1
 	fi
-	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`; do
-		base=`basename "$file"`
-		file=`readlink -e "$file"`
-		local=$HOME/$base
-		if [ "$filename" != "" -a "$filename" != "$base" ]; then
+
+	for file in `cd ./home/$setname/ && find . ! -name . -prune`; do
+		local basename=`basename "$file"`
+		local ffilename=`readlink -e "./home/$setname/$file"`
+		local localname=$HOME/$basename
+		if test "$filename" != "" -a "$filename" != "$basename"; then
 			continue
 		fi
-		if [ -e "$local" -a '!' -h "$local" ]; then
-			mv "$local" "$local.bak"
+		if test -e "$localname" -a '!' -h "$localname"; then
+			mv "$localname" "$localname.bak"
 		fi
-		rm -f "$local"
-		ln -s "$file" "$local"
-		echo "Installed $setname/$base"
+		rm -f "$localname"
+		ln -s "$ffilename" "$localname"
+		echo "Installed $setname/$basename"
 	done
 }
 
 do_uninstall () {
-	setname="$1"
-	filename="$2"
+	local setname="$1"
+	local filename="$2"
+
 	if test -z "$setname"; then
 		echo "Please give me a set name"
 		return 1
 	fi
 	if test ! -d "./home/$setname/"; then
-		echo "Set not found: $test"
+		echo "Set not found: $setname"
 		return 1
 	fi
-	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`
-	do
-		base=`basename $file`
-		local=$HOME/$base
-		if [ "$filename" != "" -a "$filename" != "$base" ]; then
+
+	for file in `cd ./home/$setname/ && find . ! -name . -prune`; do
+		local basename=`basename $file`
+		local localname="$HOME/$basename"
+		if test "$filename" != "" -a "$filename" != "$basename"; then
 			continue
 		fi
-		if [ -h "$local" -a "$local" -ef "$file" ]; then
-			rm "$local"
-			if [ -e "$local.bak" ]; then
-				mv "$local.bak" "$local"
+		if test -h "$localname" -a "$localname" -ef "./home/$setname/$file"; then
+			rm "$localname"
+			if test -e "$localname.bak"; then
+				mv "$localname.bak" "$localname"
 			fi
-			echo "Uninstalled $setname/$base"
+			echo "Uninstalled $setname/$basename"
 		fi
 	done
 }
 
 do_upload () {
-	msg=$1
-	test -n "$msg" || die "Give me a commit message"
+	local commitmsg=$1
+
+	test -n "$commitmsg" || die "Give me a commit message"
+
 	git add ./home/
-	git commit -a -m "$msg"
+	git commit -a -m "$commitmsg"
 	git push
 }
 
@@ -118,17 +123,19 @@ do_download () {
 }
 
 do_add () {
-	setname="$1"
-	basename="$2"
+	local setname="$1"
+	local basename="$2"
+	local homefile="$HOME/$basename"
+	local destination="./home/$setname/$basename"
+
 	if test -z "$basename"; then
 		echo "Please give me a filename to add to set $1"
 		return
 	fi
-	homefile="$HOME/$basename"
-	destination="./home/$setname/$basename"
-	if [ -e "$homefile" ]; then
+
+	if test -e "$homefile"; then
 		homefile=`readlink -e "$homefile"`
-		if [ ! -d "./home/$setname/" ]; then
+		if test ! -d "./home/$setname/"; then
 			mkdir -p "./home/$setname/"
 			echo "Set $setname created"
 		fi
@@ -138,19 +145,21 @@ do_add () {
 }
 
 do_rm () {
-	setname="$1"
-	basename="$2"
+	local setname="$1"
+	local basename="$2"
+	local homefile="$HOME/$basename"
+	local destination="./home/$setname/$basename"
+
 	if test -z "$basename"; then
 		echo "Please give me a filename to remove from set $1"
 		return
 	fi
-	homefile="$HOME/$basename"
-	destination="./home/$setname/$basename"
-	if [ -e "$destination" ]; then
+
+	if test -e "$destination"; then
 		do_uninstall "$setname" "$basename"
 		rm -r "$destination"
 		echo "Removed $setname/$basename"
-		if [ -z "`ls -A "./home/$setname/"`" ]; then
+		if test -z "`ls -A "./home/$setname/"`"; then
 			rmdir "./home/$setname/"
 			echo "Set $setname removed"
 		fi
@@ -200,15 +209,21 @@ USAGEEOF
 
 # Dispatch the command entered by the user here
 main () {
-	cd "$DIR"
-	command="$1"
+	local executable=`readlink -e "$0"`
+	local directory=`dirname "$executable"`
+	local command="$1"
+
+	cd "$directory"
 	case "$command" in
 		upload|download|install|uninstall|status|add|rm|git)
 		shift
 		do_$command $@
 		;;
-		*)
+		help)
 		usage
+		;;
+		*)
+		do_status
 		;;
 	esac
 }
