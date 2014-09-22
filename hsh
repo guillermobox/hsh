@@ -20,8 +20,8 @@ do_status () {
 		git diff --src-prefix="hsh@" --dst-prefix="home@" "$fullfilepath" || die "File not found in repository"
 	else
 		local output=""
-		for setname in `cd ./home && find . ! -name . -prune`;do
-			for file in `cd ./home/$setname/ && find . ! -name . -prune`; do
+		for setname in `cd ./home 2>/dev/null && find . ! -name . -prune`;do
+			for file in `cd ./home/$setname/ 2>/dev/null && find . ! -name . -prune`; do
 				local basename=`basename $file`
 				local localname="$HOME/$basename"
 				local directory=`dirname "$file"`
@@ -63,7 +63,7 @@ do_install () {
 		return 1
 	fi
 
-	for file in `cd ./home/$setname/ && find . ! -name . -prune`; do
+	for file in `cd ./home/$setname/ 2>/dev/null && find . ! -name . -prune`; do
 		local basename=`basename "$file"`
 		local ffilename=`readlink -e "./home/$setname/$file"`
 		local localname=$HOME/$basename
@@ -92,7 +92,7 @@ do_uninstall () {
 		return 1
 	fi
 
-	for file in `cd ./home/$setname/ && find . ! -name . -prune`; do
+	for file in `cd ./home/$setname/ 2>/dev/null && find . ! -name . -prune`; do
 		local basename=`basename $file`
 		local localname="$HOME/$basename"
 		if test "$filename" != "" -a "$filename" != "$basename"; then
@@ -216,6 +216,9 @@ Where command can take this shapes:
 
     hsh git [<git commands>]
         Run a certain git command in the repository (experts here).
+
+    hsh help
+        See this document.
 
 USAGEEOF
 }
