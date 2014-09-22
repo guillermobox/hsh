@@ -51,8 +51,16 @@ do_status () {
 }
 
 do_install () {
-	setname=${1:-base}
+	setname="$1"
 	filename="$2"
+	if test -z "$setname"; then
+		echo "Please give me a set name"
+		return 1
+	fi
+	if test ! -d "./home/$setname/"; then
+		echo "Set not found: $test"
+		return 1
+	fi
 	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`; do
 		base=`basename "$file"`
 		file=`readlink -e "$file"`
@@ -70,8 +78,16 @@ do_install () {
 }
 
 do_uninstall () {
-	setname=${1:-base}
+	setname="$1"
 	filename="$2"
+	if test -z "$setname"; then
+		echo "Please give me a set name"
+		return 1
+	fi
+	if test ! -d "./home/$setname/"; then
+		echo "Set not found: $test"
+		return 1
+	fi
 	for file in `find "./home/$setname/" -mindepth 1 -maxdepth 1`
 	do
 		base=`basename $file`
@@ -158,13 +174,13 @@ Where command can take this shapes:
         Get info about the repository. If you state a dotfile name, I'll
         give a git-diff.
 
-    hsh [install|uninstall] <set> [<dotfile>]
+    hsh install|uninstall <set> [<dotfile>]
         Link, or de-link a set of dotfiles in your home folder. This operation
         is secure, a backup of the original dotfiles found in your folder will
         be made, so don't worry. If you state a file name, I'll only link
         a certain dotfile of the set.
 
-    hsh [add|rm] <set> <dotfile>
+    hsh add|rm <set> <dotfile>
         Add or remove a dotfile from the repository. I'll create and destroy the
         set automatically as needed.
 
@@ -173,10 +189,11 @@ Where command can take this shapes:
         beforehand the changes in the tracked dotfiles.
 
     hsh download
-        Download the dotfiles found in the repository.
+        Download the dotfiles found in the repository. I won't fix merge
+        conflicts, so do it yourself.
 
     hsh git [<git commands>]
-        Run a certain git command in the repository (experts here)
+        Run a certain git command in the repository (experts here).
 
 USAGEEOF
 }
