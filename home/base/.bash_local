@@ -1,4 +1,0 @@
-alias gwmserver='ssh -t gwm@gwmproduction.no-ip.org screen -dR'
-export PATH="$PATH:/home/local/g.indalecio/bin/:/home/local/g.indalecio/usr/bin/"
-export PATH="$PATH:/home/remoto/g.indalecio/.local/bin/"
-export PYTHONSTARTUP="$HOME/.pythonrc.py"
