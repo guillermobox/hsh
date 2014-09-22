@@ -26,7 +26,7 @@ do_status () {
 				local localname="$HOME/$basename"
 				local directory=`dirname "$file"`
 				local setname=`basename "$setname"`
-				if test -h "$localname" -a "./home/$setname/$file" -ef `readlink -e "$localname"`; then
+				if test -h "$localname" -a "./home/$setname/$file" -ef "`readlink -e "$localname"`"; then
 					if test -n "`git status --porcelain ./home/$setname/$file`"; then
 						output="$output\n""`printf "  \033[31;2m%10s %-15s  linked, modified\033[0m" "$setname" "$basename"`"
 					else
