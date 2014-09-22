@@ -3,32 +3,31 @@
 	email = guillermobox@gmail.com
 
 [color]
-    branch = auto
-    diff = auto
-    status = auto
+	branch = auto
+	diff = auto
+	status = auto
 
 [color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
+	current = yellow reverse
+	local = yellow
+	remote = green
 
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
 
 [color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
+	added = yellow
+	changed = green
+	untracked = cyan
 
-[github]
-	user = guillermobox
-	token = 59831dfd9035e2fbb4364bc75bda76ec
+[include]
+	path = ~/.gitconfig_local
 
 [alias]
 	lol=log --oneline --all --graph --decorate
 	st=status -bs
 [push]
-	default = simple
+	default = matching
