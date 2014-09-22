@@ -8,8 +8,8 @@ fi
 # some more ls aliases
 alias ack='ack-grep'
 alias nautilus="nautilus --no-desktop&"
-alias ls="ls --color --group-directories-first"
-alias ll="ls -lcrt"
+alias ls="ls -A --color --group-directories-first"
+alias ll="ls -Alcrt"
 alias hoy="date -I"
 alias tree="tree -C -I .git"
 alias vi="vim"
