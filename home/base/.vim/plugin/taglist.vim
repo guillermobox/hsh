@@ -587,7 +587,7 @@ function! s:Tlist_Window_Display_Help()
 
     if s:tlist_brief_help
         " Add the brief help
-        call append(0, '" Press <F1> to display help text')
+        call append(0, '" Press h to display help text')
     else
         " Add the extensive help
         call append(0, '" <enter> : Jump to tag definition')
@@ -1657,8 +1657,8 @@ function! s:Tlist_Window_Init()
     nnoremap <buffer> <silent> <BS> :call <SID>Tlist_Window_Move_To_File(-1)<CR>
     nnoremap <buffer> <silent> ]] :call <SID>Tlist_Window_Move_To_File(1)<CR>
     nnoremap <buffer> <silent> <Tab> :call <SID>Tlist_Window_Move_To_File(1)<CR>
-    nnoremap <buffer> <silent> <F1> :call <SID>Tlist_Window_Toggle_Help_Text()<CR>
-    nnoremap <buffer> <silent> q :close<CR>
+    nnoremap <buffer> <silent> h :call <SID>Tlist_Window_Toggle_Help_Text()<CR>
+    nnoremap <buffer> <silent> <F1> :close<CR>
 
     " Insert mode mappings
     inoremap <buffer> <silent> <CR>
@@ -1699,8 +1699,8 @@ function! s:Tlist_Window_Init()
     inoremap <buffer> <silent> <BS> <C-o>:call <SID>Tlist_Window_Move_To_File(-1)<CR>
     inoremap <buffer> <silent> ]]   <C-o>:call <SID>Tlist_Window_Move_To_File(1)<CR>
     inoremap <buffer> <silent> <Tab> <C-o>:call <SID>Tlist_Window_Move_To_File(1)<CR>
-    inoremap <buffer> <silent> <F1>  <C-o>:call <SID>Tlist_Window_Toggle_Help_Text()<CR>
-    inoremap <buffer> <silent> q    <C-o>:close<CR>
+    inoremap <buffer> <silent> h  <C-o>:call <SID>Tlist_Window_Toggle_Help_Text()<CR>
+    inoremap <buffer> <silent> <F1>    <C-o>:close<CR>
 
     " Map single left mouse click if the user wants this functionality
     if g:Tlist_Use_SingleClick == 1
