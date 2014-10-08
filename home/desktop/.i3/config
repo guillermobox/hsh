@@ -7,6 +7,8 @@ exec dropbox start
 
 set $mod Mod4
 
+for_window [class="Xfce4-notifyd"] floating enable; border none; focus mode_toggle
+for_window [class="Pidgin"] floating enable
 for_window [class="Tk"] floating enable
 for_window [class="Display"] floating enable
 for_window [class="scummvm"] floating enable
