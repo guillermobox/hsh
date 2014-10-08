@@ -18,7 +18,7 @@ for_window [class="qemu"] floating enable
 for_window [class="XMathematica"] floating enable
 for_window [class="Steam"] floating enable
 
-font xft:DejaVu Sans 9
+font pango:DejaVu Sans 9
 floating_modifier $mod
 bindsym $mod+Return exec uxterm
 bindsym $mod+Shift+Return exec pcmanfm
