@@ -4,10 +4,13 @@ exec xset s noblank
 exec xset s off
 exec xrdb -merge ~/.Xresources
 exec dropbox start
+exec setxkbmap -layout us -variant altgr-intl
 
 set $mod Mod4
 
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+font pango:Monospace 9
+
+for_window [class="Pidgin"] floating enable
 
 floating_modifier $mod
 bindsym $mod+Return exec uxterm
