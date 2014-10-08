@@ -1,6 +1,7 @@
 filetype plugin indent on
 
 set nocompatible
+set nohlsearch
 set autoindent
 set mouse=a
 set wildmode=longest,list,full
