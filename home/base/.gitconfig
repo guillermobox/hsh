@@ -29,5 +29,6 @@
 [alias]
 	lol=log --oneline --all --graph --decorate
 	st=status -bs
+	wdiff=diff --color-words
 [push]
 	default = matching
