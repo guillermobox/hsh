@@ -4,7 +4,6 @@ exec xset s noblank
 exec xset s off
 exec xrdb -merge ~/.Xresources
 exec dropbox start
-exec setxkbmap -layout us -variant altgr-intl
 
 set $mod Mod4
 
