@@ -74,7 +74,7 @@ do_install () {
 			mv "$localname" "$localname.bak"
 		fi
 		rm -f "$localname"
-		ln -s "$ffilename" "$localname"
+		ln -s ."${ffilename#$HOME}" "$localname"
 		echo "Installed $setname/$basename"
 	done
 }
