@@ -1,5 +1,6 @@
 filetype plugin indent on
 
+
 set nocompatible
 set nohlsearch
 set autoindent
@@ -21,6 +22,8 @@ nmap <F6> :cnext<CR>
 nmap <F7> :cprev<CR>
 nmap <F8> :cwindow<CR>
 
+nmap <F9> :%!gpg --no-use-agent --output - --clearsign --armor -<CR>
+
 nmap go :let output=system('xdg-open '.expand('<cfile>'))<CR>
 
 set number
@@ -35,6 +38,7 @@ let tlist_tex_settings = 'latex;l:labels;s:sections;t:subsections;u:subsubsectio
 
 nmap <C-Up> ddkP
 nmap <C-Down> ddp
+
 
 "hi ColorColumn ctermbg=lightblue guibg=lightblue
 "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
