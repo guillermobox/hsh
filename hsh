@@ -109,7 +109,7 @@ do_uninstall () {
 }
 
 do_upload () {
-	local commitmsg=$1
+	local commitmsg="$1"
 
 	test -n "$commitmsg" || die "Give me a commit message"
 
@@ -233,7 +233,7 @@ main () {
 	case "$command" in
 		upload|download|install|uninstall|status|add|rm|git|test)
 		shift
-		do_$command $@
+		do_$command "$@"
 		;;
 		help)
 		usage
@@ -244,5 +244,5 @@ main () {
 	esac
 }
 
-main $@
+main "$@"
 
