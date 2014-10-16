@@ -2,8 +2,8 @@ UXTerm*renderFont:true
 UXTerm*faceName: DejaVu Sans Mono
 UXTerm*faceSize: 10
 
-UXTerm*color0: DimGrey
-UXTerm*color8: DimGrey
+UXTerm*color0: Black
+UXTerm*color8: Black
 UXTerm*color1: Maroon
 UXTerm*color9: Maroon
 UXTerm*color2:  Green4

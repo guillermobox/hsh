@@ -3,25 +3,16 @@
 	email = guillermobox@gmail.com
 
 [color]
-	branch = auto
 	diff = auto
-	status = auto
-
-[color "branch"]
-	current = yellow reverse
-	local = yellow
-	remote = green
+	branch = false
+	status = false
 
 [color "diff"]
-	meta =
-	frag =
+	meta = normal
+	frag = normal
 	old = red
 	new = green
-
-[color "status"]
-	added = yellow
-	changed = green
-	untracked = cyan
+	commit = bold
 
 [include]
 	path = ~/.gitconfig_local

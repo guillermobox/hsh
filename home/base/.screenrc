@@ -1,3 +1,4 @@
+startup_message off
 escape ``
 shelltitle "screen"
 caption always "  %{=}%{+r}%-w%{-r}%50>%n %t%{+r}%+w%<"
