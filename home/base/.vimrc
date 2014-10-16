@@ -22,7 +22,8 @@ nmap <F6> :cnext<CR>
 nmap <F7> :cprev<CR>
 nmap <F8> :cwindow<CR>
 
-nmap <F9> :%!gpg --no-use-agent --output - --clearsign --armor -<CR>
+nmap <F9> :%!gpg --no-use-agent --output - --clearsign --armor -<CR>:redraw!<CR>
+nmap <S-F9> :w !gpg --verify<CR>
 
 nmap go :let output=system('xdg-open '.expand('<cfile>'))<CR>
 
