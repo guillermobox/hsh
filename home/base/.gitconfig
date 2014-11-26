@@ -22,4 +22,4 @@
 	st=status -bs
 	wdiff=diff --color-words
 [push]
-	default = matching
+	default = simple
