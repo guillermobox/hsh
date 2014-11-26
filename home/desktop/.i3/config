@@ -3,6 +3,7 @@ exec xset -dpms
 exec xset s noblank
 exec xset s off
 exec xrdb -merge ~/.Xresources
+exec source ~/.xsession
 exec dropbox start
 
 set $mod Mod4
@@ -18,10 +19,10 @@ for_window [class="qemu"] floating enable
 for_window [class="XMathematica"] floating enable
 for_window [class="Steam"] floating enable
 
-font pango:DejaVu Sans 9
+font pango:DejaVu Sans Mono 9
 floating_modifier $mod
 bindsym $mod+Return exec uxterm
-bindsym $mod+Shift+Return exec pcmanfm
+bindsym $mod+Shift+Return exec nautilus
 
 bindsym $mod+SHIFT+x exec /home/guille/bin/i3lock-wrapper
 bindsym $mod+F12 exec /home/guille/bin/mycalc
@@ -82,6 +83,7 @@ bindsym $mod+Shift+E exit
 
 
 bar {
+	font pango:DejaVu Sans Mono 8
 	status_command i3status
 	colors {
 		background          #000000
