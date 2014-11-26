@@ -29,6 +29,11 @@ nmap <S-F7> ]s
 nmap <S-F8> z=
 nmap <C-S-F8> zg
 
+nmap <c-h> <c-w>h
+nmap <c-j> <c-w>j
+nmap <c-k> <c-w>k
+nmap <c-l> <c-w>l
+
 hi SpellBad term=underline cterm=underline ctermfg=Red ctermbg=none
 
 " GPG
