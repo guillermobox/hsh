@@ -18,7 +18,7 @@
 	path = ~/.gitconfig_local
 
 [alias]
-	lol=log --oneline --all --graph --decorate
+	lol = log --graph --pretty=format:'%C(yellow)%h%Creset%C(cyan)%C(bold)%d%Creset %C(cyan)(%cr)%Creset %C(green)%ce%Creset %s'
 	st=status -bs
 	wdiff=diff --color-words
 [push]
