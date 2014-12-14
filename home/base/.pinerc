@@ -426,7 +426,7 @@ address-book=
 global-address-book=
 
 # Set by Alpine; controls beginning-of-month sent-mail pruning.
-last-time-prune-questioned=114.11
+last-time-prune-questioned=114.12
 
 # Set by Alpine; controls display of "new version" message.
 last-version-used=6.11
@@ -546,7 +546,7 @@ patterns-filters2=
 patterns-scores2=
 
 # Patterns and their actions are stored here.
-patterns-indexcolors=
+patterns-indexcolors=LIT:pattern="/NICK=Index Color Rule/FLDTYPE=EMAIL/AFROM=YES/AFROMA=FRS" action="/ISINCOL=1/INCOL=\/FG=000,000,000\/BG=175,215,255"
 
 # Patterns and their actions are stored here.
 patterns-other=
