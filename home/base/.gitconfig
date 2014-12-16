@@ -18,8 +18,10 @@
 	path = ~/.gitconfig_local
 
 [alias]
-	lol = log --all --graph --pretty=format:'%C(yellow)%h%Creset%C(cyan)%C(bold)%d%Creset %C(cyan)(%cr)%Creset %C(green)%ce%Creset %s'
-	st=status -bs
-	wdiff=diff --color-words
+	lol = log --graph --pretty=format:'%C(yellow)%h%Creset %s%C(cyan)%C(bold)%d%Creset%C(cyan) (%cr) <%ae>%Creset'
+	st = status -bs
+	bl = blame --show-email --root --date=short
+	wdiff = diff --color-words
+
 [push]
 	default = simple
