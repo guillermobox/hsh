@@ -16,26 +16,35 @@ function color () {
 
 	if test -z "$set"
 	then
-		echo "Usage: color <set> <red|green|yellow|blue>[bold]"
+		echo "Usage: color <set> <color>"
 		return 1
 	fi
 
 	case "$color" in
-	red)     colorspec=31 ;;
-	green)   colorspec=32 ;;
-	yellow)  colorspec=33 ;;
-	blue)    colorspec=34 ;;
-	*) colorspec=0 ;;
+		black*)   colorspec=30 ;;
+		red*)     colorspec=31 ;;
+		green*)   colorspec=32 ;;
+		yellow*)  colorspec=33 ;;
+		blue*)    colorspec=34 ;;
+		pink*)    colorspec=35 ;;
+		cyan*)    colorspec=36 ;;
+		white*)   colorspec=37 ;;
+		*)        colorspec=0 ;;
 	esac
 
 	case "$color" in
-	*bold)   colorspec="${colorspec};1"
+		*bold)      colorspec="${colorspec};1" ;;
+		*italic)    colorspec="${colorspec};3" ;;
+		*underline) colorspec="${colorspec};4" ;;
+		*blink)     colorspec="${colorspec};5" ;;
+		*reverse)   colorspec="${colorspec};7" ;;
 	esac
 
 	case "$set" in
-	c)       filespec="*.c=${colorspec}:*.h=${colorspec}" ;;
-	python)  filespec="*.py=${colorspec}" ;;
-	reset)   export LS_COLORS="${LS_COLORS_BASE}"; return 0 ;;
+		reset)   export LS_COLORS="${LS_COLORS_BASE}"; return 0 ;;
+		c)       filespec="*.c=${colorspec}:*.h=${colorspec}" ;;
+		python)  filespec="*.py=${colorspec}" ;;
+		*)       echo "Nigga you crazy!"; return 1 ;;
 	esac
 
 	export LS_COLORS="${LS_COLORS}:${filespec}"
