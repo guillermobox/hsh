@@ -44,6 +44,7 @@ function color () {
 		reset)   export LS_COLORS="${LS_COLORS_BASE}"; return 0 ;;
 		c)       filespec="*.c=${colorspec}:*.h=${colorspec}" ;;
 		python)  filespec="*.py=${colorspec}" ;;
+		zip)     filespec="*.zip=${colorspec}:*.tgz=${colorspec}:*.tbz=${colorspec}:*.xz=${colorspec}:*.gz=${colorspec}:*.bz2=${colorspec}" ;;
 		*)       echo "Nigga you crazy!"; return 1 ;;
 	esac
 
