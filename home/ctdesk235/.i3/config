@@ -11,6 +11,7 @@ set $mod Mod4
 font pango:Monospace 9
 
 for_window [class="Pidgin"] floating enable
+for_window [class="UXTerm" title="rpn-floating"] floating enable
 
 floating_modifier $mod
 bindsym $mod+Return exec uxterm
@@ -23,6 +24,8 @@ bindsym $mod+KP_Subtract exec amixer -q set Master 2dB- unmute
 
 bindsym $mod+Shift+Q kill
 bindsym $mod+d exec dmenu_run
+
+bindsym $mod+F12 exec rpn
 
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -75,14 +78,15 @@ bindsym $mod+Shift+E exit
 bar {
 	status_command i3status
 	colors {
-		background          #000000
-		focused_workspace   #000000  #ffffff
-		active_workspace    #000000  #ffffff
-		inactive_workspace  #ffffff  #000000
+		statusline #000000
+		background          #cccccc
+		focused_workspace   #cccccc  #ffffff #000000
+		active_workspace    #cccccc  #ffffff #000000
+		inactive_workspace  #cccccc  #cccccc #000000
 	}
 }
 
-client.unfocused           #000000 #000000 #ffffff
-client.focused_inactive    #000000 #000000 #ffffff
-client.focused             #ffffff #ffffff #000000
+client.unfocused           #cccccc #cccccc #777777
+client.focused_inactive    #cccccc #cccccc #777777
+client.focused             #cccccc #cccccc #000000
 client.urgent              #2f343a #900000 #ffffff
