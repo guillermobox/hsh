@@ -8,6 +8,8 @@ exec source .xsession
 
 set $mod Mod4
 
+workspace_layout stacking
+
 font pango:Monospace 9
 
 for_window [class="Pidgin"] floating enable
