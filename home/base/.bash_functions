@@ -52,7 +52,7 @@ function color () {
 }
 
 
-# Copyright (c) 2009 rupa deadwyler under the WTFPL license
+# start of z: Copyright (c) 2009 rupa deadwyler under the WTFPL license
 
 # maintains a jump-list of the directories you actually use
 #
@@ -294,4 +294,4 @@ elif complete >/dev/null 2>&1; then
         }
     }
 fi
-# end of z Copyright (c) 2009 rupa deadwyler under the WTFPL license
+# end of z: Copyright (c) 2009 rupa deadwyler under the WTFPL license

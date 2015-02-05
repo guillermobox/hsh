@@ -5,7 +5,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='\egrep --color=auto'
 fi
 
-# some more ls aliases
 alias ack='ack-grep'
 alias nautilus="nautilus --no-desktop&"
 alias ls="ls -A --color --group-directories-first"
