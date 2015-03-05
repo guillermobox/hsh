@@ -1,5 +1,6 @@
 filetype plugin indent on
 
+au BufNewFile,BufRead *.spec set filetype=inispec
 
 set nocompatible
 set nohlsearch

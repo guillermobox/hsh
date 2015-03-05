@@ -16,6 +16,7 @@ for_window [class="Pidgin"] floating enable
 for_window [class="UXTerm" title="rpn-floating"] floating enable
 for_window [class="Eclipse" title="^Eclipse$"] floating enable
 for_window [window_role="pop-up"] floating enable
+for_window [class="MATLAB" instance="MATLAB"] floating enable
 
 floating_modifier $mod
 bindsym $mod+Return exec uxterm
