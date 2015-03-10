@@ -2,7 +2,7 @@ UXTerm*renderFont:true
 !UXTerm*faceName: DejaVu Sans Mono
 !UXTerm*faceSize: 10
 UXTerm*faceName: Cousine
-UXTerm*faceSize: 11
+UXTerm*faceSize: 10
 UXTerm*ScrollBar: false
 
 UXTerm*color0: Black
