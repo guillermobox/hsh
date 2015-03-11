@@ -11,7 +11,7 @@ set wildmenu
 set nowrap
 set backspace=indent,eol,start
 set list
-set list listchars=tab:\|\ ,trail:»
+set list listchars=tab:\│\ ,trail:»
 set fillchars+=vert:\ 
 
 nmap <F1> :Tlist<CR>
@@ -36,6 +36,7 @@ nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
 
 hi SpellBad term=underline cterm=underline ctermfg=Red ctermbg=none
+hi SpecialKey ctermfg=gray
 
 " GPG
 nmap <F9> :%!gpg --output - --clearsign --armor - 2>/dev/null <CR>:redraw!<CR>
@@ -57,7 +58,3 @@ let tlist_tex_settings = 'latex;l:labels;s:sections;t:subsections;u:subsubsectio
 nmap <C-Up> ddkP
 nmap <C-Down> ddp
 
-
-"hi ColorColumn ctermbg=lightblue guibg=lightblue
-"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-"match OverLength /\%81v.\+/
