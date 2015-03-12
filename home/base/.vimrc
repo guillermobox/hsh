@@ -36,7 +36,7 @@ nmap <c-k> <c-w>k
 nmap <c-l> <c-w>l
 
 hi SpellBad term=underline cterm=underline ctermfg=Red ctermbg=none
-hi SpecialKey ctermfg=gray
+hi SpecialKey ctermfg=brown
 
 " GPG
 nmap <F9> :%!gpg --output - --clearsign --armor - 2>/dev/null <CR>:redraw!<CR>
