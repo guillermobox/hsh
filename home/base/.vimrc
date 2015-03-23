@@ -37,6 +37,7 @@ nmap <c-l> <c-w>l
 
 hi SpellBad term=underline cterm=underline ctermfg=Red ctermbg=none
 hi SpecialKey ctermfg=blue
+hi StatusLine ctermfg=green
 hi LineNr ctermfg=blue
 hi Visual ctermfg=white ctermbg=blue
 
