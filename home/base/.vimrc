@@ -14,6 +14,8 @@ set list
 set list listchars=tab:\│\ ,trail:»
 set fillchars+=vert:\ 
 
+syntax sync fromstart
+
 nmap <F1> :Tlist<CR>
 nmap <F2> :bprev<CR>
 nmap <F3> :bnext<CR>
