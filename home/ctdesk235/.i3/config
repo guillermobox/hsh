@@ -1,10 +1,10 @@
-exec nitrogen --restore
+exec source ~/.xsession
+exec xrdb -merge ~/.Xresources
 exec xset -dpms
 exec xset s noblank
 exec xset s off
-exec xrdb -merge ~/.Xresources
+exec nitrogen --restore
 exec dropbox start
-exec source .xsession
 
 set $mod Mod4
 
