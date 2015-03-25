@@ -1,3 +1,7 @@
+function vimo () {
+	vim -c "MRU $1"
+}
+
 function hextobin () {
 	if [ "$#" -ne 2 ]; then
 		echo Please provide two arguments: input txt file, and output bin file

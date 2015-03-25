@@ -1,7 +1,5 @@
 filetype plugin indent on
 
-command! OldFiles new +setl\ buftype=nofile | 0put =v:oldfiles | nnoremap <buffer> <CR> :e <C-r>=getline('.')<CR><CR>
-
 au BufNewFile,BufRead *.spec set filetype=inispec
 
 set nocompatible
@@ -15,6 +13,7 @@ set backspace=indent,eol,start
 set list
 set list listchars=tab:\│\ ,trail:»
 set fillchars+=vert:\ 
+
 
 syntax sync fromstart
 
