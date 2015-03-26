@@ -493,6 +493,7 @@ function! s:MRU_Edit_File(filename, sanitized)
             exe 'edit ' . esc_fname
         endif
     endif
+    cd %:h
 endfunction
 
 " MRU_Open_File_In_Tab
