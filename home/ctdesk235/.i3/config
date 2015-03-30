@@ -19,7 +19,7 @@ for_window [window_role="pop-up"] floating enable
 for_window [class="MATLAB" instance="MATLAB"] floating enable
 
 floating_modifier $mod
-bindsym $mod+Return exec uxterm
+bindsym $mod+Return exec uxterm -tn xterm-256color
 bindsym $mod+Control+Return exec cdterm
 bindsym $mod+Shift+Return exec nautilus --no-desktop
 bindsym $mod+Control+Shift+Return exec cdfm

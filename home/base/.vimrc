@@ -42,7 +42,7 @@ hi SpellBad term=underline cterm=underline ctermfg=Red ctermbg=none
 hi SpecialKey ctermfg=blue
 hi StatusLine ctermfg=green
 hi LineNr ctermfg=blue
-hi Visual ctermfg=white ctermbg=blue
+hi Visual ctermfg=blue ctermbg=white cterm=reverse
 
 " GPG
 nmap <F9> :%!gpg --output - --clearsign --armor - 2>/dev/null <CR>:redraw!<CR>
