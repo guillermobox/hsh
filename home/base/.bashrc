@@ -1,5 +1,6 @@
 PS1="\[\033]0;\u@\h:\w\007\]"
 PS1="$PS1[\u@\h \W]\$ "
+PS1="\[\033[35;1m$PS1\033[0m\]"
 
 test -f ~/.bash_aliases && . ~/.bash_aliases
 test -f ~/.bash_functions && . ~/.bash_functions
