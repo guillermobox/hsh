@@ -1,8 +1,5 @@
 exec source ~/.xsession
 exec xrdb -merge ~/.Xresources
-exec xset -dpms
-exec xset s noblank
-exec xset s off
 exec nitrogen --restore
 exec dropbox start
 
