@@ -11,3 +11,4 @@ export LS_COLORS="$LS_COLORS_BASE"
 export EDITOR=vim
 export GPG_TTY=$(tty)
 TERM="xterm-256color"
+export PATH="$PATH:$HOME/.local/bin/"
