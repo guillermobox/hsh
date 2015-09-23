@@ -84,3 +84,5 @@ SynLink Debug		Special
 
 delcommand SynColor
 delcommand SynLink
+hi NonText ctermfg=Gray
+hi SpecialKey ctermfg=Gray

@@ -15,28 +15,29 @@ do_status () {
 		if test -n "$2"; then
 			fullfilepath="./home/$1/$2"
 		else
-			fullfilepath=`readlink -e "$HOME/$1"` || die "File not found in home"
+			fullfilepath=$(readlink -e "$HOME/$1") || die "File not found in home"
 		fi
 		git diff --src-prefix="hsh@" --dst-prefix="home@" "$fullfilepath" || die "File not found in repository"
 	else
 		local output=""
-		for setname in `cd ./home 2>/dev/null && find . ! -name . -prune`;do
-			for file in `cd ./home/$setname/ 2>/dev/null && find . ! -name . -prune`; do
-				local basename=`basename $file`
-				local localname="$HOME/$basename"
-				local directory=`dirname "$file"`
-				local setname=`basename "$setname"`
-				if test -h "$localname" -a "./home/$setname/$file" -ef "`readlink -e "$localname"`"; then
-					if test -n "`git status --porcelain ./home/$setname/$file`"; then
-						output="$output\n""`printf "  \033[31;2m%10s %-15s  linked, modified\033[0m" "$setname" "$basename"`"
+		for setname in $(cd ./home 2>/dev/null && find . ! -name . -prune);do
+			for file in $(cd "./home/$setname/" 2>/dev/null && find . ! -name . -prune); do
+				local basename localname directory setname
+				basename=$(basename "$file")
+				localname="$HOME/$basename"
+				directory=$(dirname "$file")
+				setname=$(basename "$setname")
+				if test -h "$localname" -a "./home/$setname/$file" -ef "$(readlink -e "$localname")"; then
+					if test -n "$(git status --porcelain "./home/$setname/$file")"; then
+						output="$output\n""$(printf "  \033[31;2m%10s %-15s  linked, modified\033[0m" "$setname" "$basename")"
 					else
-						output="$output\n""`printf "  %10s %-15s  linked" "$setname" "$basename"`"
+						output="$output\n""$(printf "  %10s %-15s  linked" "$setname" "$basename")"
 					fi
 				else
-					if test -n "`git status --porcelain ./home/$setname/$file`"; then
-						output="$output\n""`printf "  \033[31;2m%10s %-15s  modified\033[0m" "$setname" "$basename"`"
+					if test -n "$(git status --porcelain "./home/$setname/$file")"; then
+						output="$output\n""$(printf "  \033[31;2m%10s %-15s  modified\033[0m" "$setname" "$basename")"
 					else
-						output="$output\n""`printf "  %10s %-15s" "$setname" "$basename"`"
+						output="$output\n""$(printf "  %10s %-15s" "$setname" "$basename")"
 					fi
 				fi
 			done
@@ -51,8 +52,7 @@ do_status () {
 }
 
 do_install () {
-	local setname="$1"
-	local filename="$2"
+	local setname="$1" filename="$2"
 
 	if test -z "$setname"; then
 		echo "Please give me a set name"
@@ -63,10 +63,11 @@ do_install () {
 		return 1
 	fi
 
-	for file in `cd ./home/$setname/ 2>/dev/null && find . ! -name . -prune`; do
-		local basename=`basename "$file"`
-		local ffilename=`readlink -e "./home/$setname/$file"`
-		local localname=$HOME/$basename
+	for file in $(cd "./home/$setname/" 2>/dev/null && find . ! -name . -prune); do
+		local basename ffilename localname
+		basename=$(basename "$file")
+		ffilename=$(readlink -e "./home/$setname/$file")
+		localname="$HOME/$basename"
 		if test "$filename" != "" -a "$filename" != "$basename"; then
 			continue
 		fi
@@ -92,9 +93,10 @@ do_uninstall () {
 		return 1
 	fi
 
-	for file in `cd ./home/$setname/ 2>/dev/null && find . ! -name . -prune`; do
-		local basename=`basename $file`
-		local localname="$HOME/$basename"
+	for file in $(cd "./home/$setname/" 2>/dev/null && find . ! -name . -prune); do
+		local basename localname
+		basename=$(basename "$file")
+		localname="$HOME/$basename"
 		if test "$filename" != "" -a "$filename" != "$basename"; then
 			continue
 		fi
@@ -122,8 +124,9 @@ do_download () {
 	git pull || die "Impossible to download, why oh why?"
 	for homefile in $HOME/.*; do
 		if test -h "$homefile"; then
-			local linkedfile=`readlink -m "$homefile"`
-			local linkeddir=`dirname "$linkedfile"`
+			local linkedfile linkeddir
+			linkedfile=$(readlink -m "$homefile")
+			linkeddir=$(dirname "$linkedfile")
 			if test "${linkeddir##$directory}" = "/home/base" -a ! -e "$linkedfile"; then
 				echo "Recovering orphaned file: $homefile"
 				rm "$homefile"
@@ -147,7 +150,7 @@ do_add () {
 	fi
 
 	if test -e "$homefile"; then
-		homefile=`readlink -e "$homefile"`
+		homefile=$(readlink -e "$homefile")
 		if test ! -d "./home/$setname/"; then
 			mkdir -p "./home/$setname/"
 			echo "Set $setname created"
@@ -172,7 +175,7 @@ do_rm () {
 		do_uninstall "$setname" "$basename"
 		rm -r "$destination"
 		echo "Removed $setname/$basename"
-		if test -z "`ls -A "./home/$setname/"`"; then
+		if test -z "$(ls -A "./home/$setname/")"; then
 			rmdir "./home/$setname/"
 			echo "Set $setname removed"
 		fi
@@ -180,7 +183,7 @@ do_rm () {
 }
 
 do_git () {
-	git $@
+	git "$@"
 }
 
 usage () {
@@ -225,21 +228,21 @@ USAGEEOF
 
 # Dispatch the command entered by the user here
 main () {
-	executable=`readlink -e "$0"`
-	directory=`dirname "$executable"`
+	executable=$(readlink -e "$0")
+	directory=$(dirname "$executable")
 	local command="$1"
 
-	cd "$directory"
+	cd "$directory" || die "Impossible to change to application directory"
 	case "$command" in
 		upload|download|install|uninstall|status|add|rm|git|test)
 		shift
-		do_$command "$@"
+		"do_$command" "$@"
 		;;
 		help)
 		usage
 		;;
 		*)
-		do_status
+		do_status "$@"
 		;;
 	esac
 }
