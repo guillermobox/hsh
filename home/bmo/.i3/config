@@ -21,6 +21,7 @@ for_window [class="qemu"] floating enable
 for_window [class="XMathematica"] floating enable
 for_window [class="Steam"] floating enable, border none
 for_window [class="Google-chrome"] border none
+for_window [class="gtkconfig"] floating enable
 
 
 font pango:DejaVu Sans Mono 10
@@ -95,15 +96,15 @@ bar {
 	font pango:DejaVu Sans Mono 10
 	status_command i3status
 	colors {
-		statusline #000000
-		background          #cccccc
-		focused_workspace   #cccccc #ffffff  #000000
-		active_workspace    #cccccc #ffffff  #000000
-		inactive_workspace  #cccccc #cccccc  #000000
+		statusline #555555
+		background          #000000
+		focused_workspace   #000000 #555555  #000000
+		active_workspace    #000000 #555555  #000000
+		inactive_workspace  #000000 #000000  #555555
 	}
 }
 
 client.unfocused           #000000 #000000 #ffffff
 client.focused_inactive    #000000 #000000 #ffffff
-client.focused             #ffffff #ffffff #000000
+client.focused             #333333 #333333 #ffffff
 client.urgent              #2f343a #900000 #ffffff
