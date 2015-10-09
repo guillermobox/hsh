@@ -42,7 +42,7 @@ if &background == "dark"
   SynColor Ignore	term=NONE cterm=NONE ctermfg=black ctermbg=NONE gui=NONE guifg=bg guibg=NONE
 else
   SynColor Comment	term=NONE cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
-  SynColor ConstantString	term=NONE cterm=NONE ctermfg=DarkBlue ctermbg=NONE gui=NONE guifg=fg guibg=bg
+  SynColor ConstantString	term=NONE cterm=NONE ctermfg=DarkGreen ctermbg=NONE gui=NONE guifg=fg guibg=bg
   SynColor Constant	term=NONE cterm=NONE ctermfg=NONE ctermbg=NONE gui=NONE guifg=Black guibg=NONE
   SynColor Special	term=NONE cterm=NONE ctermfg=NONE ctermbg=NONE gui=NONE guifg=fg guibg=bg
   SynColor Identifier	term=NONE cterm=NONE ctermfg=NONE ctermbg=NONE gui=NONE guifg=fg guibg=bg
