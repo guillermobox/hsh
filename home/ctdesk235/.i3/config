@@ -5,8 +5,6 @@ exec dropbox start
 
 set $mod Mod4
 
-workspace_layout stacking
-
 font pango:Monospace 9
 
 for_window [class="Pidgin"] floating enable
@@ -14,6 +12,7 @@ for_window [class="UXTerm" title="rpn-floating"] floating enable
 for_window [class="Eclipse" title="^Eclipse$"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [class="MATLAB" instance="MATLAB"] floating enable
+for_window [class="Hp42"] floating enable border none
 
 floating_modifier $mod
 bindsym $mod+Return exec uxterm -tn xterm-256color
@@ -77,7 +76,6 @@ bindsym $mod+Shift+parenright move workspace 10
 
 bindsym $mod+Shift+C reload
 bindsym $mod+Shift+R restart
-bindsym $mod+Shift+E exit
 
 bar {
 	status_command i3status
@@ -94,3 +92,18 @@ client.unfocused           #cccccc #cccccc #777777
 client.focused_inactive    #cccccc #cccccc #777777
 client.focused             #cccccc #cccccc #000000
 client.urgent              #2f343a #900000 #ffffff
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) exit
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym e exec --no-startup-id i3exit logout, mode "default"
+    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Shift+E mode "$mode_system"
