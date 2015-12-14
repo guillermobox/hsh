@@ -4,10 +4,17 @@ if exists('g:loaded_file_line') || (v:version < 701)
 endif
 let g:loaded_file_line = 1
 
-" list with all possible expressions :
-"	 matches file(10) or file(line:col)
-"	 Accept file:line:column: or file:line:column and file:line also
-let s:regexpressions = [ '\([^(]\{-1,}\)(\%(\(\d\+\)\%(:\(\d*\):\?\)\?\))', '\(.\{-1,}\):\%(\(\d\+\)\%(:\(\d*\):\?\)\?\)\?' ]
+" below regexp will separate filename and line/column number
+" possible inputs to get to line 10 (and column 99) in code.cc are:
+" * code.cc(10)
+" * code.cc(10:99)
+" * code.cc:10
+" * code.cc:10:99
+"
+" closing braces/colons are ignored, so also acceptable are:
+" * code.cc(10
+" * code.cc:10:
+let s:regexpressions = [ '\(.\{-1,}\)[(:]\(\d\+\)\%(:\(\d\+\):\?\)\?' ]
 
 function! s:reopenAndGotoLine(file_name, line_num, col_num)
 	if !filereadable(a:file_name)
@@ -51,6 +58,7 @@ function! s:gotoline()
 			return file_name
 		endif
 	endfor
+	return file
 endfunction
 
 " Handle entry in the argument list.
@@ -61,7 +69,7 @@ function! s:handle_arg()
 	if fname != argname
 		let argidx = argidx()
 		exec (argidx+1).'argdelete'
-		exec (argidx)'argadd' fname
+		exec (argidx)'argadd' fnameescape(fname)
 	endif
 endfunction
 
@@ -71,10 +79,11 @@ function! s:startup()
 
 	if argc() > 0
 		let argidx=argidx()
-		argdo call s:handle_arg()
+		silent argdo call s:handle_arg()
 		exec (argidx+1).'argument'
 		" Manually call Syntax autocommands, ignored by `:argdo`.
 		doautocmd Syntax
+		doautocmd FileType
 	endif
 endfunction
 
