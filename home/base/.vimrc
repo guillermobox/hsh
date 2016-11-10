@@ -21,6 +21,7 @@ set textwidth=80
 
 
 syntax sync fromstart
+syntax on
 
 nmap <F1> :Tlist<CR>
 nmap <F2> :bprev<CR>

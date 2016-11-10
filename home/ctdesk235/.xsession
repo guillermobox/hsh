@@ -5,3 +5,4 @@ export LIBOVERLAY_SCROLLBAR=0
 setxkbmap -layout us -variant altgr-intl
 export PATH="$PATH:$HOME/.local/bin/"
 export NO_AT_BRIDGE=1
+xrandr --dpi 105
