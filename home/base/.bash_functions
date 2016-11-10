@@ -1,3 +1,7 @@
+function launch() {
+	nohup $1 1>/dev/null 2>&1 & exit
+}
+
 function vimo () {
 	vim -c "MRU $1"
 }

@@ -1,7 +1,10 @@
 filetype plugin indent on
 
+" Tabularize /,\zs
+
 au BufNewFile,BufRead *.spec set filetype=inispec
 
+set hidden
 set nocompatible
 set nohlsearch
 set autoindent
@@ -13,6 +16,8 @@ set backspace=indent,eol,start
 set list
 set list listchars=tab:\│\ ,trail:»
 set fillchars+=vert:\ 
+set colorcolumn=80
+set textwidth=80
 
 
 syntax sync fromstart
@@ -51,6 +56,8 @@ nmap <S-F9> :w !gpg --verify<CR>
 
 nmap go :let output=system('xdg-open '.expand('<cfile>'))<CR>
 
+set hlsearch
+hi Search cterm=NONE ctermbg=lightyellow
 set number
 set background=light
 set laststatus=2

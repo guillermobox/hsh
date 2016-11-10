@@ -1,6 +1,9 @@
 UXTerm*renderFont:true
-UXTerm*faceName: DejaVu Sans Mono
-UXTerm*faceSize: 10
+!UXTerm*faceName: DejaVu Sans Mono
+UXTerm*faceName: Inconsolata
+!UXTerm*faceName: Source Code Pro Medium
+!UXTerm*faceSize: 10
+UXTerm*faceSize: 12
 UXTerm*borderWidth: 0
 UXTerm*ScrollBar: false
 
