@@ -6,7 +6,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 alias ack='ack-grep'
-alias nautilus="nautilus --no-desktop&"
+alias nautilus="nautilus --no-desktop &"
 alias ls="ls -A --color --group-directories-first"
 alias ll="ls -Alcrt"
 alias l="ls"

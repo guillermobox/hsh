@@ -1,5 +1,4 @@
 PS1="\[\033]0;\u@\h:\w\007\]"
-#PS1="$PS1[\u@\h \W]\$ "
 PS1="$PS1\w\$ "
 PS1="\[\033[35;2m\]$PS1\[\033[0m\]"
 
@@ -11,7 +10,16 @@ LS_COLORS_BASE='no=00:fi=00:di=1;1:ln=00:pi=00:so=00:do=00:bd=00:cd=00:or=00:mi=
 export LS_COLORS="$LS_COLORS_BASE"
 export EDITOR=vim
 export GPG_TTY=$(tty)
+
 TERM="xterm-256color"
-export PATH="$PATH:$HOME/.local/bin/"
-PATH=$PATH:/home/remoto/g.indalecio/.local/bin/
-PATH="/usr/local/heroku/bin:$PATH"
+
+if [ -d "/usr/local/heroku/bin" ] ; then
+	PATH="$PATH:/usr/local/heroku/bin"
+fi
+
+PATH="$PATH:$HOME/.local/bin/"
+PATH="$PATH:$HOME/code/go/bin/"
+GOPATH="$HOME/code/go/"
+
+export PATH
+export GOPATH
