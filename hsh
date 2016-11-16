@@ -143,6 +143,7 @@ do_add () {
 	local basename="$2"
 	local homefile="$HOME/$basename"
 	local destination="./home/$setname/$basename"
+	local destfolder=$(dirname "$destination")
 
 	if test -z "$basename"; then
 		echo "Please give me a filename to add to set $1"
@@ -151,9 +152,8 @@ do_add () {
 
 	if test -e "$homefile"; then
 		homefile=$(readlink -e "$homefile")
-		if test ! -d "./home/$setname/"; then
-			mkdir -p "./home/$setname/"
-			echo "Set $setname created"
+		if test ! -d "$destfolder"; then
+			mkdir -p "$destfolder"
 		fi
 		cp -r "$homefile" "$destination"
 		echo "Added $setname/$basename"
