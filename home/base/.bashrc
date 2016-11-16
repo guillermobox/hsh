@@ -14,3 +14,4 @@ export GPG_TTY=$(tty)
 TERM="xterm-256color"
 export PATH="$PATH:$HOME/.local/bin/"
 PATH=$PATH:/home/remoto/g.indalecio/.local/bin/
+PATH="/usr/local/heroku/bin:$PATH"
