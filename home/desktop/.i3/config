@@ -18,6 +18,8 @@ for_window [class="nes-emulator"] floating enable
 for_window [class="qemu"] floating enable
 for_window [class="XMathematica"] floating enable
 for_window [class="Steam"] floating enable
+for_window [class="feh"] floating enable
+for_window [class="eog"] floating enable
 
 font pango:DejaVu Sans Mono 9
 floating_modifier $mod

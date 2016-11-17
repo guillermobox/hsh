@@ -1,0 +1,23 @@
+open_with 
+search 
+search *.c
+search .c
+search c
+search \.c
+.c
+find pe
+shell git st
+shell  %s
+shell rm *.o
+delete
+move to=3
+move
+
+cd 
+search
+rename opt
+search .config
+searchl
+search go
+search dbm
+search info
