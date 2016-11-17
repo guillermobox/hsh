@@ -17,6 +17,10 @@ if [ -d "/usr/local/heroku/bin" ] ; then
 	PATH="$PATH:/usr/local/heroku/bin"
 fi
 
+if [ -e "$HOME/.fehbg" ]; then
+	. $HOME/.fehbg
+fi
+
 PATH="$PATH:$HOME/.local/bin/"
 PATH="$PATH:$HOME/code/go/bin/"
 GOPATH="$HOME/code/go/"
