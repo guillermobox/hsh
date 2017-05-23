@@ -56,6 +56,7 @@ nmap <C-F9> :%!gpg --output - --encrypt --armor - 2>/dev/null <CR>:redraw!<CR>
 nmap <S-F9> :w !gpg --verify<CR>
 
 nmap go :let output=system('xdg-open '.expand('<cfile>'))<CR>
+nmap gr :grep <cword> %:p:h/*<CR>
 
 set hlsearch
 hi Search cterm=NONE ctermbg=lightyellow
@@ -68,6 +69,9 @@ set title
 let Tlist_GainFocus_On_ToggleOpen = 1
 let Tlist_Enable_Fold_Column = 0
 let tlist_tex_settings = 'latex;l:labels;s:sections;t:subsections;u:subsubsections'
+
+let g:miniBufExplorerAutoStart = 1
+let g:miniBufExplBuffersNeeded = 1
 
 nmap <C-Up> ddkP
 nmap <C-Down> ddp
