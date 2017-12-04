@@ -1658,7 +1658,7 @@ function! s:Tlist_Window_Init()
     nnoremap <buffer> <silent> ]] :call <SID>Tlist_Window_Move_To_File(1)<CR>
     nnoremap <buffer> <silent> <Tab> :call <SID>Tlist_Window_Move_To_File(1)<CR>
     nnoremap <buffer> <silent> h :call <SID>Tlist_Window_Toggle_Help_Text()<CR>
-    nnoremap <buffer> <silent> <F1> :close<CR>
+    nnoremap <buffer> <silent> <F1> :TlistToggle<CR>
 
     " Insert mode mappings
     inoremap <buffer> <silent> <CR>
@@ -1700,7 +1700,7 @@ function! s:Tlist_Window_Init()
     inoremap <buffer> <silent> ]]   <C-o>:call <SID>Tlist_Window_Move_To_File(1)<CR>
     inoremap <buffer> <silent> <Tab> <C-o>:call <SID>Tlist_Window_Move_To_File(1)<CR>
     inoremap <buffer> <silent> h  <C-o>:call <SID>Tlist_Window_Toggle_Help_Text()<CR>
-    inoremap <buffer> <silent> <F1>    <C-o>:close<CR>
+    inoremap <buffer> <silent> <F1>    <C-o>:TlistToggle<CR>
 
     " Map single left mouse click if the user wants this functionality
     if g:Tlist_Use_SingleClick == 1

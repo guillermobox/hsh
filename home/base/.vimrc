@@ -23,6 +23,7 @@ set textwidth=80
 syntax sync fromstart
 syntax on
 
+
 nmap <F1> :Tlist<CR>
 nmap <F2> :bprev<CR>
 nmap <F3> :bnext<CR>
@@ -68,10 +69,8 @@ set scrolloff=10
 set title
 let Tlist_GainFocus_On_ToggleOpen = 1
 let Tlist_Enable_Fold_Column = 0
+let Tlist_Inc_Winwidth=0
 let tlist_tex_settings = 'latex;l:labels;s:sections;t:subsections;u:subsubsections'
-
-let g:miniBufExplorerAutoStart = 1
-let g:miniBufExplBuffersNeeded = 1
 
 nmap <C-Up> ddkP
 nmap <C-Down> ddp

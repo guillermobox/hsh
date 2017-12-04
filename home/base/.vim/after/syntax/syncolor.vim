@@ -51,6 +51,7 @@ else
   SynColor Type		term=NONE cterm=NONE ctermfg=NONE ctermbg=NONE gui=NONE guifg=fg guibg=bg
   SynColor Underlined	term=underline cterm=underline ctermfg=NONE ctermbg=NONE gui=NONE guifg=fg guibg=bg
   SynColor Ignore	term=NONE cterm=NONE ctermfg=white ctermbg=NONE gui=NONE guifg=fg guibg=NONE
+  SynColor Declaration		term=NONE cterm=NONE ctermfg=Blue ctermbg=NONE gui=NONE guifg=fg guibg=bg
 endif
 SynColor Error		term=reverse cterm=NONE ctermfg=White ctermbg=Red gui=NONE guifg=White guibg=Red
 SynColor Todo		term=standout cterm=NONE ctermfg=Black ctermbg=Yellow gui=NONE guifg=Blue guibg=Yellow
