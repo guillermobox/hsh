@@ -10,6 +10,8 @@ set autoindent
 
 filetype indent off
 
+match Title /[A-Z]\{2,\}/
+
 "iab program PROGRAM
 "iab print PRINT
 "iab contains CONTAINS
