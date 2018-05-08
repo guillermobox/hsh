@@ -21,13 +21,13 @@ for_window [class="Steam"] floating enable
 for_window [class="feh"] floating enable
 for_window [class="eog"] floating enable
 
-font pango:DejaVu Sans Mono 9
+font pango:Inconsolata 12
+
 floating_modifier $mod
 bindsym $mod+Return exec uxterm
-bindsym $mod+Shift+Return exec nautilus --no-desktop
+bindsym $mod+Shift+Return exec DESKTOP_SESSION=kde dolphin
 
-bindsym $mod+SHIFT+x exec /home/guille/bin/i3lock-wrapper
-bindsym $mod+F12 exec /home/guille/bin/mycalc
+bindsym $mod+SHIFT+x exec /home/indalecio/i3lock-wrapper
 
 bindsym $mod+KP_Add exec amixer -q set Master 2dB+ unmute
 bindsym $mod+KP_Subtract exec amixer -q set Master 2dB- unmute
@@ -85,17 +85,26 @@ bindsym $mod+Shift+E exit
 
 
 bar {
-	font pango:DejaVu Sans Mono 8
+	font pango:Inconsolata 12
 	status_command i3status
 	colors {
-		background          #000000
+#		background          #000000
+#		focused_workspace   #ffffff  #ffffff  #000000
+#		active_workspace    #ffffff  #ffffff  #000000
+#		inactive_workspace  #000000  #000000  #ffffff
+		background          #586e75
 		focused_workspace   #ffffff  #ffffff  #000000
 		active_workspace    #ffffff  #ffffff  #000000
-		inactive_workspace  #000000  #000000  #ffffff
+		inactive_workspace  #586e75 #586e75 #ffffff
 	}
 }
 
-client.unfocused           #000000 #000000 #ffffff
-client.focused_inactive    #000000 #000000 #ffffff
-client.focused             #ffffff #ffffff #000000
+#client.unfocused           #000000 #000000 #ffffff
+#client.focused_inactive    #000000 #000000 #ffffff
+#client.focused             #ffffff #ffffff #000000
+#client.urgent              #2f343a #900000 #ffffff
+
+client.unfocused           #586e75 #586e75 #cccccc
+client.focused_inactive    #586e75 #586e75 #cccccc
+client.focused             #839496 #839496 #ffffff
 client.urgent              #2f343a #900000 #ffffff
