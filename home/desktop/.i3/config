@@ -33,7 +33,8 @@ bindsym $mod+KP_Add exec amixer -q set Master 2dB+ unmute
 bindsym $mod+KP_Subtract exec amixer -q set Master 2dB- unmute
 
 bindsym $mod+Shift+Q kill
-bindsym $mod+d exec dmenu_run
+#bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec rofi -show run
 
 bindsym $mod+h focus left
 bindsym $mod+j focus down

@@ -4,7 +4,7 @@
 !UXTerm*faceName: Luxi Mono
 UXTerm*faceName: Inconsolata
 UXTerm*renderFont:true
-UXTerm*faceSize: 12
+UXTerm*faceSize: 14
 UXTerm*borderWidth: 0
 UXTerm*ScrollBar: false
 
@@ -41,8 +41,8 @@ UXTerm*color6:  CadetBlue4
 UXTerm*color14: CadetBlue4
 UXTerm*color7:  WhiteSmoke
 UXTerm*color15: WhiteSmoke
-UXTerm*background: Linen
-!UXTerm*background: White
+!UXTerm*background: Linen
+UXTerm*background: White
 UXTerm*foreground: Black
 
 !
