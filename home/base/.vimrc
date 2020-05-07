@@ -39,15 +39,15 @@ nmap <c-l> <c-w>l
 
 hi SpellBad term=underline cterm=underline ctermfg=Red ctermbg=none
 hi SpecialKey ctermfg=blue
-hi StatusLine ctermfg=green
-hi LineNr ctermfg=blue
+"hi StatusLine ctermfg=white ctermbg=blue
+"hi LineNr ctermfg=blue
 hi Visual ctermfg=blue ctermbg=white cterm=reverse
 
 nmap go :let output=system('xdg-open '.expand('<cfile>'))<CR>
 nmap gr :grep <cword> %:p:h/*<CR>
 
 set hlsearch
-hi Search cterm=NONE ctermbg=lightyellow
+hi Search cterm=NONE ctermbg=lightyellow ctermfg=black
 set background=light
 set laststatus=2
 set ttimeoutlen=50
